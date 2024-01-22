@@ -1,0 +1,2 @@
+Iperf3 build:
+./configure --prefix=/home/anton/kernel_dev/build/initramfs/busybox-x86/lib/iperf3/ --enable-static --disable-shared
