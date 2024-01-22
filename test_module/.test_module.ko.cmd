@@ -1,0 +1,1 @@
+savedcmd_/home/anton/kernel_dev/test_module/test_module.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/anton/kernel_dev/test_module/test_module.ko /home/anton/kernel_dev/test_module/test_module.o /home/anton/kernel_dev/test_module/test_module.mod.o

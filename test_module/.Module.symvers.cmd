@@ -1,0 +1,1 @@
+savedcmd_/home/anton/kernel_dev/test_module/Module.symvers :=  scripts/mod/modpost -M        -o /home/anton/kernel_dev/test_module/Module.symvers -T /home/anton/kernel_dev/test_module/modules.order -i Module.symvers -e 

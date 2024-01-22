@@ -1,0 +1,1 @@
+savedcmd_/home/anton/kernel_dev/test_module/test_module.mod := printf '%s\n'   test_module.o | awk '!x[$$0]++ { print("/home/anton/kernel_dev/test_module/"$$0) }' > /home/anton/kernel_dev/test_module/test_module.mod
