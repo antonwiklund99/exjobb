@@ -1,0 +1,1 @@
+Functions starting with netdev are generally intented to be called from interrupt context in the network device driver while functions starting with napi from a [[Softirq]] and schedule by NAPI ([[NAPI Scheduling]])

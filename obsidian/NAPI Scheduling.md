@@ -1,5 +1,5 @@
 (net/core/dev.c)
-
+NAPI uses [[Softirq]] for scheduling networking work (the [[Bottom Half]]s).
 Two of the static softirqs are used by the networking subsystem to schedule tx/rx packets. Initialized in **netdev_init(void)**.
 ![[Pasted image 20240123112730.png]]
 ## RX
