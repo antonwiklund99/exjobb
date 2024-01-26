@@ -1,2 +1,2 @@
 [[Slab allocator]]
-[[SKB Memory Allocation]]
+[[SKB Memory Allocation and Freeing]]

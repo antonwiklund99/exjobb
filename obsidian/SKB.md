@@ -1,2 +1,2 @@
 [[SKB memset 0]]
-[[SKB Memory Allocation]]
+[[SKB Memory Allocation and Freeing]]

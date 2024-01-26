@@ -28,6 +28,9 @@ null::sysinit:/bin/ln -sf /proc/self/fd/2 /dev/stderr
 # now run any rc scripts
 ::sysinit:/etc/init.d/rcS
 
+# Mount tracefs
+::sysinit:/bin/mount -t tracefs nodev /sys/kernel/tracing
+
 # Put a shell on the console
 console::respawn:-/bin/sh
 
