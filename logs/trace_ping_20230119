@@ -1,0 +1,540 @@
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 528/528   #P:1
+#
+#                                _-----=> irqs-off/BH-disabled
+#                               / _----=> need-resched
+#                              | / _---=> hardirq/softirq
+#                              || / _--=> preempt-depth
+#                              ||| / _-=> migrate-disable
+#                              |||| /     delay
+#           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
+#              | |         |   |||||     |         |
+          <idle>-0       [000] ..s1.   186.085752: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=0000000041d97a74,len=1920
+          <idle>-0       [000] b.s2.   186.085763: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   186.085805: consume_skb: skbaddr=00000000723c2fbd location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   186.085806: skb_head_frag_free: skb=00000000723c2fbd,page=00000000810418cf,data=00000000e02ace34
+          <idle>-0       [000] ..s1.   186.085811: consume_skb: skbaddr=000000005ec81488 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   186.085812: skb_head_kfree: skb=000000005ec81488,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   187.090007: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000c8e4114b,len=1920
+          <idle>-0       [000] b.s2.   187.090017: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   187.090061: consume_skb: skbaddr=00000000893441e3 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   187.090062: skb_head_frag_free: skb=00000000893441e3,page=00000000810418cf,data=00000000e7e6166a
+          <idle>-0       [000] ..s1.   187.090068: consume_skb: skbaddr=0000000034ff858e location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   187.090069: skb_head_kfree: skb=0000000034ff858e,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   188.114978: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000006f41fdf4,len=1920
+          <idle>-0       [000] b.s2.   188.114989: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   188.115032: consume_skb: skbaddr=00000000dd307ac0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   188.115032: skb_head_frag_free: skb=00000000dd307ac0,page=00000000810418cf,data=00000000e687b9ac
+          <idle>-0       [000] ..s1.   188.115039: consume_skb: skbaddr=000000001dd43793 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   188.115040: skb_head_kfree: skb=000000001dd43793,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   189.138099: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000d14d511d,len=1920
+          <idle>-0       [000] b.s2.   189.138109: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   189.138152: consume_skb: skbaddr=000000004fd9b30e location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   189.138153: skb_head_frag_free: skb=000000004fd9b30e,page=00000000810418cf,data=000000004780af94
+          <idle>-0       [000] ..s1.   189.138159: consume_skb: skbaddr=000000007ed22f79 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   189.138159: skb_head_kfree: skb=000000007ed22f79,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   190.161959: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000f17dbc9e,len=1920
+          <idle>-0       [000] b.s2.   190.161971: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   190.162013: consume_skb: skbaddr=00000000df5fad95 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   190.162014: skb_head_frag_free: skb=00000000df5fad95,page=00000000810418cf,data=000000009cd8fc15
+          <idle>-0       [000] ..s1.   190.162019: consume_skb: skbaddr=000000009c5b5867 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   190.162020: skb_head_kfree: skb=000000009c5b5867,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   191.186974: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000004ceeb567,len=1920
+          <idle>-0       [000] b.s2.   191.186989: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   191.187039: consume_skb: skbaddr=000000007556bfdf location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   191.187039: skb_head_frag_free: skb=000000007556bfdf,page=00000000810418cf,data=00000000802e7c84
+          <idle>-0       [000] ..s1.   191.187046: consume_skb: skbaddr=00000000e860fb92 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   191.187046: skb_head_kfree: skb=00000000e860fb92,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   191.313949: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=0000000096cd4ee9,len=1920
+          <idle>-0       [000] ..s1.   191.313957: skb_head_kmalloc: location=arp_create+0x6a/0x370,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   191.313989: consume_skb: skbaddr=00000000280bd56b location=arp_process+0x294/0x840
+          <idle>-0       [000] ..s1.   191.313989: skb_head_frag_free: skb=00000000280bd56b,page=00000000810418cf,data=00000000c33d4c08
+          <idle>-0       [000] ..s1.   191.313994: consume_skb: skbaddr=000000004b086d6f location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   191.313995: skb_head_kfree: skb=000000004b086d6f,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   192.210127: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000c16f8263,len=1920
+          <idle>-0       [000] b.s2.   192.210138: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   192.210180: consume_skb: skbaddr=0000000067fc9480 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   192.210181: skb_head_frag_free: skb=0000000067fc9480,page=00000000810418cf,data=000000001a2f76d9
+          <idle>-0       [000] ..s1.   192.210187: consume_skb: skbaddr=000000000ff8f3d8 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   192.210187: skb_head_kfree: skb=000000000ff8f3d8,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   193.234994: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000005d7852c3,len=1920
+          <idle>-0       [000] b.s2.   193.235007: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   193.235051: consume_skb: skbaddr=000000005f30c81c location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   193.235052: skb_head_frag_free: skb=000000005f30c81c,page=00000000810418cf,data=000000009596049b
+          <idle>-0       [000] ..s1.   193.235058: consume_skb: skbaddr=00000000e2fb105c location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   193.235059: skb_head_kfree: skb=00000000e2fb105c,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   194.257926: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000c5cad4cc,len=1920
+          <idle>-0       [000] b.s2.   194.257937: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   194.257982: consume_skb: skbaddr=00000000e1602cc1 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   194.257983: skb_head_frag_free: skb=00000000e1602cc1,page=00000000810418cf,data=0000000045e171f6
+          <idle>-0       [000] ..s1.   194.257989: consume_skb: skbaddr=000000008944a212 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   194.257990: skb_head_kfree: skb=000000008944a212,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   195.281967: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000008a9187e8,len=1920
+          <idle>-0       [000] b.s2.   195.281983: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   195.282039: consume_skb: skbaddr=000000007251f967 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   195.282039: skb_head_frag_free: skb=000000007251f967,page=00000000810418cf,data=00000000bed35c8a
+          <idle>-0       [000] ..s1.   195.282047: consume_skb: skbaddr=00000000c7ae7032 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   195.282048: skb_head_kfree: skb=00000000c7ae7032,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   196.305905: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000136d0628,len=1920
+          <idle>-0       [000] b.s2.   196.305916: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   196.305960: consume_skb: skbaddr=0000000021e7aea0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   196.305960: skb_head_frag_free: skb=0000000021e7aea0,page=00000000810418cf,data=000000004367ff39
+          <idle>-0       [000] ..s1.   196.305965: consume_skb: skbaddr=000000004a3de9f5 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   196.305966: skb_head_kfree: skb=000000004a3de9f5,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   197.329952: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000a12e4832,len=1920
+          <idle>-0       [000] b.s2.   197.329965: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   197.330010: consume_skb: skbaddr=00000000481a4d53 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   197.330011: skb_head_frag_free: skb=00000000481a4d53,page=00000000810418cf,data=000000004089b433
+          <idle>-0       [000] ..s1.   197.330016: consume_skb: skbaddr=00000000daf012f2 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   197.330017: skb_head_kfree: skb=00000000daf012f2,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   198.353955: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000cbf51ef3,len=1920
+          <idle>-0       [000] b.s2.   198.353971: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   198.354029: consume_skb: skbaddr=00000000aaa68b56 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   198.354030: skb_head_frag_free: skb=00000000aaa68b56,page=00000000810418cf,data=00000000bfb8b501
+          <idle>-0       [000] ..s1.   198.354037: consume_skb: skbaddr=00000000dcd0a669 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   198.354038: skb_head_kfree: skb=00000000dcd0a669,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   199.377885: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000002978df33,len=1920
+          <idle>-0       [000] b.s2.   199.377896: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   199.377939: consume_skb: skbaddr=0000000086a47f47 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   199.377939: skb_head_frag_free: skb=0000000086a47f47,page=00000000810418cf,data=0000000072463efe
+          <idle>-0       [000] ..s1.   199.377945: consume_skb: skbaddr=00000000aaa68b56 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   199.377946: skb_head_kfree: skb=00000000aaa68b56,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   200.401879: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000009f4568c4,len=1920
+          <idle>-0       [000] b.s2.   200.401891: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   200.401934: consume_skb: skbaddr=0000000058e55082 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   200.401935: skb_head_frag_free: skb=0000000058e55082,page=00000000810418cf,data=0000000061d64620
+          <idle>-0       [000] ..s1.   200.401940: consume_skb: skbaddr=0000000086a47f47 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   200.401941: skb_head_kfree: skb=0000000086a47f47,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   201.425874: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000002585ba33,len=1920
+          <idle>-0       [000] b.s2.   201.425885: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   201.425926: consume_skb: skbaddr=00000000e86952e2 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   201.425927: skb_head_frag_free: skb=00000000e86952e2,page=00000000810418cf,data=00000000c87ecf7c
+          <idle>-0       [000] ..s1.   201.425934: consume_skb: skbaddr=00000000481a4d53 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   201.425934: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   202.449846: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000c1264f62,len=1920
+          <idle>-0       [000] b.s2.   202.449858: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   202.449900: consume_skb: skbaddr=0000000082678bc0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   202.449901: skb_head_frag_free: skb=0000000082678bc0,page=000000006bd324a7,data=00000000d1e3e479
+          <idle>-0       [000] ..s1.   202.449906: consume_skb: skbaddr=0000000021e7aea0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   202.449906: skb_head_kfree: skb=0000000021e7aea0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   203.473864: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000ce287547,len=1920
+          <idle>-0       [000] b.s2.   203.473880: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   203.473936: consume_skb: skbaddr=00000000f787377a location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   203.473937: skb_head_frag_free: skb=00000000f787377a,page=000000006bd324a7,data=00000000e4c6e249
+          <idle>-0       [000] ..s1.   203.473944: consume_skb: skbaddr=000000007251f967 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   203.473945: skb_head_kfree: skb=000000007251f967,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   204.497857: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=000000009d01e068,len=1920
+          <idle>-0       [000] b.s2.   204.497870: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   204.497916: consume_skb: skbaddr=000000002bbecf34 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   204.497917: skb_head_frag_free: skb=000000002bbecf34,page=000000006bd324a7,data=00000000ee7182ef
+          <idle>-0       [000] ..s1.   204.497923: consume_skb: skbaddr=00000000f787377a location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   204.497924: skb_head_kfree: skb=00000000f787377a,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   205.521824: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=00000000596284e3,data=00000000a913f9cc,len=1920
+          <idle>-0       [000] b.s2.   205.521835: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   205.521875: consume_skb: skbaddr=00000000653da7a5 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   205.521876: skb_head_frag_free: skb=00000000653da7a5,page=000000006bd324a7,data=0000000049018131
+          <idle>-0       [000] ..s1.   205.521882: consume_skb: skbaddr=000000002bbecf34 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   205.521883: skb_head_kfree: skb=000000002bbecf34,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   206.545813: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000003abf7cc2,len=1920
+          <idle>-0       [000] b.s2.   206.545824: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   206.545868: consume_skb: skbaddr=0000000073e396dd location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   206.545869: skb_head_frag_free: skb=0000000073e396dd,page=000000006bd324a7,data=00000000e5d81012
+          <idle>-0       [000] ..s1.   206.545875: consume_skb: skbaddr=00000000653da7a5 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   206.545875: skb_head_kfree: skb=00000000653da7a5,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   207.569856: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000701b7c26,len=1920
+          <idle>-0       [000] b.s2.   207.569867: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   207.569914: consume_skb: skbaddr=000000002a4e4b0a location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   207.569914: skb_head_frag_free: skb=000000002a4e4b0a,page=000000006bd324a7,data=00000000eecee073
+          <idle>-0       [000] ..s1.   207.569920: consume_skb: skbaddr=0000000082678bc0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   207.569921: skb_head_kfree: skb=0000000082678bc0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   208.593789: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000706df1d0,len=1920
+          <idle>-0       [000] b.s2.   208.593800: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   208.593844: consume_skb: skbaddr=000000004dabbc39 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   208.593844: skb_head_frag_free: skb=000000004dabbc39,page=000000006bd324a7,data=00000000eba08e27
+          <idle>-0       [000] ..s1.   208.593850: consume_skb: skbaddr=0000000073e396dd location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   208.593851: skb_head_kfree: skb=0000000073e396dd,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   209.617777: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000002a958615,len=1920
+          <idle>-0       [000] b.s2.   209.617789: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   209.617828: consume_skb: skbaddr=0000000020f3ed0b location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   209.617829: skb_head_frag_free: skb=0000000020f3ed0b,page=000000006bd324a7,data=0000000062df5fd2
+          <idle>-0       [000] ..s1.   209.617835: consume_skb: skbaddr=00000000e86952e2 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   209.617836: skb_head_kfree: skb=00000000e86952e2,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   209.931113: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   209.931116: consume_skb: skbaddr=0000000058e55082 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   209.931117: skb_head_kfree: skb=0000000058e55082,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   210.641868: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=0000000095c9c19d,len=1920
+          <idle>-0       [000] b.s2.   210.641879: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   210.641923: consume_skb: skbaddr=0000000060976295 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   210.641924: skb_head_frag_free: skb=0000000060976295,page=000000006bd324a7,data=00000000702507e1
+          <idle>-0       [000] ..s1.   210.641930: consume_skb: skbaddr=0000000058e55082 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   210.641930: skb_head_kfree: skb=0000000058e55082,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   211.665764: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000001ef8116c,len=1920
+          <idle>-0       [000] b.s2.   211.665776: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   211.665821: consume_skb: skbaddr=00000000353cdca9 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   211.665821: skb_head_frag_free: skb=00000000353cdca9,page=000000006bd324a7,data=00000000ff1b7f6e
+          <idle>-0       [000] ..s1.   211.665827: consume_skb: skbaddr=000000002a4e4b0a location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   211.665828: skb_head_kfree: skb=000000002a4e4b0a,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   212.689761: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=0000000064698b6f,len=1920
+          <idle>-0       [000] b.s2.   212.689772: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   212.689816: consume_skb: skbaddr=00000000bc4ae205 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   212.689817: skb_head_frag_free: skb=00000000bc4ae205,page=000000006bd324a7,data=00000000da515806
+          <idle>-0       [000] ..s1.   212.689823: consume_skb: skbaddr=00000000e1602cc1 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   212.689823: skb_head_kfree: skb=00000000e1602cc1,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   213.713750: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000009a851c38,len=1920
+          <idle>-0       [000] b.s2.   213.713761: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   213.713803: consume_skb: skbaddr=00000000c8940560 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   213.713804: skb_head_frag_free: skb=00000000c8940560,page=000000006bd324a7,data=00000000be6b09e2
+          <idle>-0       [000] ..s1.   213.713810: consume_skb: skbaddr=000000005f30c81c location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   213.713811: skb_head_kfree: skb=000000005f30c81c,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   214.737817: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=0000000024bb5313,len=1920
+          <idle>-0       [000] b.s2.   214.737829: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   214.737870: consume_skb: skbaddr=00000000e883374f location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   214.737870: skb_head_frag_free: skb=00000000e883374f,page=000000006bd324a7,data=00000000875fa774
+          <idle>-0       [000] ..s1.   214.737877: consume_skb: skbaddr=0000000067fc9480 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   214.737877: skb_head_kfree: skb=0000000067fc9480,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   215.761726: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000e11e37c0,len=1920
+          <idle>-0       [000] b.s2.   215.761737: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   215.761781: consume_skb: skbaddr=000000004b20f997 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   215.761781: skb_head_frag_free: skb=000000004b20f997,page=000000006bd324a7,data=000000002b666aeb
+          <idle>-0       [000] ..s1.   215.761788: consume_skb: skbaddr=00000000280bd56b location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   215.761788: skb_head_kfree: skb=00000000280bd56b,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   216.075112: skb_head_kmalloc: location=arp_create+0x6a/0x370,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   216.075202: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=000000000d348d17,len=640
+          <idle>-0       [000] ..s1.   216.075204: consume_skb: skbaddr=00000000df5fad95 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   216.075205: skb_head_kfree: skb=00000000df5fad95,data=000000000d348d17
+          <idle>-0       [000] ..s1.   216.075206: consume_skb: skbaddr=000000007556bfdf location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   216.075206: skb_head_kfree: skb=000000007556bfdf,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   216.075210: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000bc940857,len=1920
+          <idle>-0       [000] ..s1.   216.075214: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   216.075214: consume_skb: skbaddr=00000000df5fad95 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   216.075214: skb_head_kfree: skb=00000000df5fad95,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   216.075214: consume_skb: skbaddr=0000000036f19588 location=arp_process+0x294/0x840
+          <idle>-0       [000] ..s1.   216.075215: skb_head_frag_free: skb=0000000036f19588,page=000000006bd324a7,data=000000009e4fc66d
+          <idle>-0       [000] ..s1.   216.785716: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000000b984518,len=1920
+          <idle>-0       [000] b.s2.   216.785727: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   216.785770: consume_skb: skbaddr=000000005ddadc81 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   216.785771: skb_head_frag_free: skb=000000005ddadc81,page=000000006bd324a7,data=00000000b9461711
+          <idle>-0       [000] ..s1.   216.785777: consume_skb: skbaddr=00000000df5fad95 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   216.785778: skb_head_kfree: skb=00000000df5fad95,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   217.809716: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000e968eb4e,len=1920
+          <idle>-0       [000] b.s2.   217.809727: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   217.809766: consume_skb: skbaddr=00000000c5dd18f7 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   217.809767: skb_head_frag_free: skb=00000000c5dd18f7,page=000000006bd324a7,data=00000000080b7019
+          <idle>-0       [000] ..s1.   217.809773: consume_skb: skbaddr=000000004fd9b30e location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   217.809774: skb_head_kfree: skb=000000004fd9b30e,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   218.833699: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=00000000d1b4a078,len=1920
+          <idle>-0       [000] b.s2.   218.833710: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   218.833752: consume_skb: skbaddr=0000000048504500 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   218.833753: skb_head_frag_free: skb=0000000048504500,page=000000002531dad8,data=00000000da97d256
+          <idle>-0       [000] ..s1.   218.833758: consume_skb: skbaddr=00000000dd307ac0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   218.833759: skb_head_kfree: skb=00000000dd307ac0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   219.858687: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000000855b5c1,len=1920
+          <idle>-0       [000] b.s2.   219.858698: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   219.858742: consume_skb: skbaddr=0000000053556e0d location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   219.858743: skb_head_frag_free: skb=0000000053556e0d,page=000000002531dad8,data=000000008cbd20f4
+          <idle>-0       [000] ..s1.   219.858748: consume_skb: skbaddr=00000000893441e3 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   219.858749: skb_head_kfree: skb=00000000893441e3,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   220.881688: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=000000007a99fa1a,len=1920
+          <idle>-0       [000] b.s2.   220.881699: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   220.881741: consume_skb: skbaddr=00000000295b2623 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   220.881741: skb_head_frag_free: skb=00000000295b2623,page=000000002531dad8,data=000000001eb40f2e
+          <idle>-0       [000] ..s1.   220.881746: consume_skb: skbaddr=00000000bd1c2176 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   220.881747: skb_head_kfree: skb=00000000bd1c2176,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   221.905667: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000007cf2a742,data=0000000099ae67ec,len=1920
+          <idle>-0       [000] b.s2.   221.905678: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   221.905719: consume_skb: skbaddr=000000009ae5d079 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   221.905721: skb_head_frag_free: skb=000000009ae5d079,page=000000002531dad8,data=00000000df0bbe8d
+          <idle>-0       [000] ..s1.   221.905726: consume_skb: skbaddr=000000001cfa2b85 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   221.905727: skb_head_kfree: skb=000000001cfa2b85,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   222.929708: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000d1e3e479,len=1920
+          <idle>-0       [000] b.s2.   222.929720: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   222.929764: consume_skb: skbaddr=000000008fd8e217 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   222.929765: skb_head_frag_free: skb=000000008fd8e217,page=000000002531dad8,data=00000000cd10f799
+          <idle>-0       [000] ..s1.   222.929770: consume_skb: skbaddr=0000000065b44036 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   222.929771: skb_head_kfree: skb=0000000065b44036,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   223.954642: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000e4c6e249,len=1920
+          <idle>-0       [000] b.s2.   223.954654: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   223.954694: consume_skb: skbaddr=00000000305e3d68 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   223.954695: skb_head_frag_free: skb=00000000305e3d68,page=000000002531dad8,data=000000006c526cd4
+          <idle>-0       [000] ..s1.   223.954701: consume_skb: skbaddr=000000003ed254fc location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   223.954701: skb_head_kfree: skb=000000003ed254fc,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   224.978647: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000ee7182ef,len=1920
+          <idle>-0       [000] b.s2.   224.978658: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   224.978699: consume_skb: skbaddr=00000000a0a5bff4 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   224.978700: skb_head_frag_free: skb=00000000a0a5bff4,page=000000002531dad8,data=0000000050e780bb
+          <idle>-0       [000] ..s1.   224.978705: consume_skb: skbaddr=00000000db3533d8 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   224.978706: skb_head_kfree: skb=00000000db3533d8,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   226.001633: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=0000000049018131,len=1920
+          <idle>-0       [000] b.s2.   226.001644: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   226.001686: consume_skb: skbaddr=00000000b9636d5a location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   226.001687: skb_head_frag_free: skb=00000000b9636d5a,page=000000002531dad8,data=00000000ebc59018
+          <idle>-0       [000] ..s1.   226.001692: consume_skb: skbaddr=00000000a0a5bff4 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   226.001693: skb_head_kfree: skb=00000000a0a5bff4,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   226.315114: skb_head_kmalloc: location=ndisc_alloc_skb+0x47/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   226.315199: consume_skb: skbaddr=00000000b9636d5a location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   226.315200: skb_head_kfree: skb=00000000b9636d5a,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   227.025623: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000e5d81012,len=1920
+          <idle>-0       [000] b.s2.   227.025634: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   227.025676: consume_skb: skbaddr=00000000fa119d96 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   227.025677: skb_head_frag_free: skb=00000000fa119d96,page=000000002531dad8,data=00000000e36bae9f
+          <idle>-0       [000] ..s1.   227.025682: consume_skb: skbaddr=00000000305e3d68 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   227.025683: skb_head_kfree: skb=00000000305e3d68,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   228.049614: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000eecee073,len=1920
+          <idle>-0       [000] b.s2.   228.049626: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   228.049669: consume_skb: skbaddr=000000006336c93a location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   228.049669: skb_head_frag_free: skb=000000006336c93a,page=000000002531dad8,data=000000003b979770
+          <idle>-0       [000] ..s1.   228.049674: consume_skb: skbaddr=000000008fd8e217 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   228.049675: skb_head_kfree: skb=000000008fd8e217,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   229.074641: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000eba08e27,len=1920
+          <idle>-0       [000] b.s2.   229.074652: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   229.074694: consume_skb: skbaddr=0000000087e2faa0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   229.074695: skb_head_frag_free: skb=0000000087e2faa0,page=000000002531dad8,data=00000000b2e39698
+          <idle>-0       [000] ..s1.   229.074700: consume_skb: skbaddr=000000009ae5d079 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   229.074701: skb_head_kfree: skb=000000009ae5d079,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   230.097594: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=0000000062df5fd2,len=1920
+          <idle>-0       [000] b.s2.   230.097605: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   230.097647: consume_skb: skbaddr=0000000052252a9e location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   230.097647: skb_head_frag_free: skb=0000000052252a9e,page=000000002531dad8,data=00000000c94766bb
+          <idle>-0       [000] ..s1.   230.097653: consume_skb: skbaddr=00000000295b2623 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   230.097653: skb_head_kfree: skb=00000000295b2623,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   231.122566: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000702507e1,len=1920
+          <idle>-0       [000] b.s2.   231.122577: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   231.122617: consume_skb: skbaddr=00000000438e2840 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   231.122618: skb_head_frag_free: skb=00000000438e2840,page=000000002531dad8,data=00000000f146573b
+          <idle>-0       [000] ..s1.   231.122623: consume_skb: skbaddr=0000000053556e0d location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   231.122624: skb_head_kfree: skb=0000000053556e0d,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   232.145622: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000ff1b7f6e,len=1920
+          <idle>-0       [000] b.s2.   232.145632: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   232.145673: consume_skb: skbaddr=00000000a7dfd06a location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   232.145673: skb_head_frag_free: skb=00000000a7dfd06a,page=000000002531dad8,data=00000000101e6e1a
+          <idle>-0       [000] ..s1.   232.145679: consume_skb: skbaddr=0000000048504500 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   232.145680: skb_head_kfree: skb=0000000048504500,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   233.169606: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000da515806,len=1920
+          <idle>-0       [000] b.s2.   233.169617: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   233.169659: consume_skb: skbaddr=000000003330f0a0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   233.169660: skb_head_frag_free: skb=000000003330f0a0,page=000000002531dad8,data=00000000b369c256
+          <idle>-0       [000] ..s1.   233.169665: consume_skb: skbaddr=00000000c5dd18f7 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   233.169666: skb_head_kfree: skb=00000000c5dd18f7,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   234.193554: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000be6b09e2,len=1920
+          <idle>-0       [000] b.s2.   234.193564: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   234.193605: consume_skb: skbaddr=000000002aaa6c68 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   234.193606: skb_head_frag_free: skb=000000002aaa6c68,page=000000002531dad8,data=00000000b3bb9d71
+          <idle>-0       [000] ..s1.   234.193611: consume_skb: skbaddr=000000005ddadc81 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   234.193611: skb_head_kfree: skb=000000005ddadc81,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   235.217580: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000875fa774,len=1920
+          <idle>-0       [000] b.s2.   235.217592: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   235.217635: consume_skb: skbaddr=00000000bdfe5673 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   235.217635: skb_head_frag_free: skb=00000000bdfe5673,page=000000002531dad8,data=0000000008612d55
+          <idle>-0       [000] ..s1.   235.217642: consume_skb: skbaddr=0000000036f19588 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   235.217642: skb_head_kfree: skb=0000000036f19588,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   236.241526: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=000000002b666aeb,len=1920
+          <idle>-0       [000] b.s2.   236.241537: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   236.241575: consume_skb: skbaddr=000000003dd6e3b4 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   236.241576: skb_head_frag_free: skb=000000003dd6e3b4,page=000000006a5029b1,data=000000001e85b9d7
+          <idle>-0       [000] ..s1.   236.241581: consume_skb: skbaddr=00000000bdfe5673 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   236.241581: skb_head_kfree: skb=00000000bdfe5673,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   237.265540: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=000000009e4fc66d,len=1920
+          <idle>-0       [000] b.s2.   237.265551: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   237.265593: consume_skb: skbaddr=00000000b389969b location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   237.265593: skb_head_frag_free: skb=00000000b389969b,page=000000006a5029b1,data=00000000101ec064
+          <idle>-0       [000] ..s1.   237.265598: consume_skb: skbaddr=000000002aaa6c68 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   237.265599: skb_head_kfree: skb=000000002aaa6c68,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   238.290514: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000b9461711,len=1920
+          <idle>-0       [000] b.s2.   238.290526: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   238.290568: consume_skb: skbaddr=00000000c0efd552 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   238.290568: skb_head_frag_free: skb=00000000c0efd552,page=000000006a5029b1,data=000000002d0e0e6a
+          <idle>-0       [000] ..s1.   238.290573: consume_skb: skbaddr=000000003330f0a0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   238.290574: skb_head_kfree: skb=000000003330f0a0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   238.417507: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006bd324a7,data=00000000080b7019,len=1920
+          <idle>-0       [000] ..s1.   238.417514: skb_head_kmalloc: location=arp_create+0x6a/0x370,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   238.417545: consume_skb: skbaddr=00000000b66f1097 location=arp_process+0x294/0x840
+          <idle>-0       [000] ..s1.   238.417545: skb_head_frag_free: skb=00000000b66f1097,page=000000006a5029b1,data=000000008cace931
+          <idle>-0       [000] ..s1.   238.417550: consume_skb: skbaddr=00000000a7dfd06a location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   238.417550: skb_head_kfree: skb=00000000a7dfd06a,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   239.313510: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000da97d256,len=1920
+          <idle>-0       [000] b.s2.   239.313522: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   239.313564: consume_skb: skbaddr=000000003f930b33 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   239.313565: skb_head_frag_free: skb=000000003f930b33,page=000000006a5029b1,data=000000001e552fe2
+          <idle>-0       [000] ..s1.   239.313570: consume_skb: skbaddr=00000000438e2840 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   239.313571: skb_head_kfree: skb=00000000438e2840,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   240.337491: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=000000008cbd20f4,len=1920
+          <idle>-0       [000] b.s2.   240.337502: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   240.337544: consume_skb: skbaddr=00000000351671cc location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   240.337544: skb_head_frag_free: skb=00000000351671cc,page=000000006a5029b1,data=00000000c64ee784
+          <idle>-0       [000] ..s1.   240.337549: consume_skb: skbaddr=0000000052252a9e location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   240.337550: skb_head_kfree: skb=0000000052252a9e,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   241.361496: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=000000001eb40f2e,len=1920
+          <idle>-0       [000] b.s2.   241.361507: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   241.361550: consume_skb: skbaddr=00000000ddad8cfd location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   241.361551: skb_head_frag_free: skb=00000000ddad8cfd,page=000000006a5029b1,data=000000003e78a2b2
+          <idle>-0       [000] ..s1.   241.361556: consume_skb: skbaddr=0000000087e2faa0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   241.361556: skb_head_kfree: skb=0000000087e2faa0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   242.386472: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000df0bbe8d,len=1920
+          <idle>-0       [000] b.s2.   242.386484: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   242.386524: consume_skb: skbaddr=00000000d97b37f0 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   242.386525: skb_head_frag_free: skb=00000000d97b37f0,page=000000006a5029b1,data=00000000d62819fb
+          <idle>-0       [000] ..s1.   242.386530: consume_skb: skbaddr=00000000ddad8cfd location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   242.386531: skb_head_kfree: skb=00000000ddad8cfd,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   243.409480: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000cd10f799,len=1920
+          <idle>-0       [000] b.s2.   243.409491: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   243.409530: consume_skb: skbaddr=00000000f0ae0ddd location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   243.409531: skb_head_frag_free: skb=00000000f0ae0ddd,page=000000006a5029b1,data=0000000048583725
+          <idle>-0       [000] ..s1.   243.409537: consume_skb: skbaddr=00000000d97b37f0 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   243.409537: skb_head_kfree: skb=00000000d97b37f0,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   244.433460: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=000000006c526cd4,len=1920
+          <idle>-0       [000] b.s2.   244.433471: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   244.433513: consume_skb: skbaddr=000000008cfa6c7f location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   244.433513: skb_head_frag_free: skb=000000008cfa6c7f,page=000000006a5029b1,data=00000000f5018845
+          <idle>-0       [000] ..s1.   244.433519: consume_skb: skbaddr=000000006336c93a location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   244.433519: skb_head_kfree: skb=000000006336c93a,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   245.457453: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=0000000050e780bb,len=1920
+          <idle>-0       [000] b.s2.   245.457464: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   245.457506: consume_skb: skbaddr=000000006919ba8b location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   245.457507: skb_head_frag_free: skb=000000006919ba8b,page=000000006a5029b1,data=000000005ca8f537
+          <idle>-0       [000] ..s1.   245.457512: consume_skb: skbaddr=000000008cfa6c7f location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   245.457512: skb_head_kfree: skb=000000008cfa6c7f,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   246.481444: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000ebc59018,len=1920
+          <idle>-0       [000] b.s2.   246.481454: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   246.481498: consume_skb: skbaddr=00000000875f5682 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   246.481498: skb_head_frag_free: skb=00000000875f5682,page=000000006a5029b1,data=000000000be91949
+          <idle>-0       [000] ..s1.   246.481503: consume_skb: skbaddr=000000006919ba8b location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   246.481504: skb_head_kfree: skb=000000006919ba8b,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   247.505426: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000e36bae9f,len=1920
+          <idle>-0       [000] b.s2.   247.505437: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   247.505479: consume_skb: skbaddr=00000000e33910b4 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   247.505479: skb_head_frag_free: skb=00000000e33910b4,page=000000006a5029b1,data=0000000047648821
+          <idle>-0       [000] ..s1.   247.505484: consume_skb: skbaddr=00000000875f5682 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   247.505485: skb_head_kfree: skb=00000000875f5682,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   248.529422: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=000000003b979770,len=1920
+          <idle>-0       [000] b.s2.   248.529433: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   248.529473: consume_skb: skbaddr=000000006facc2ae location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   248.529474: skb_head_frag_free: skb=000000006facc2ae,page=000000006a5029b1,data=0000000041d97a74
+          <idle>-0       [000] ..s1.   248.529479: consume_skb: skbaddr=00000000e33910b4 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   248.529479: skb_head_kfree: skb=00000000e33910b4,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   249.553411: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000b2e39698,len=1920
+          <idle>-0       [000] b.s2.   249.553421: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   249.553464: consume_skb: skbaddr=000000005ec81488 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   249.553465: skb_head_frag_free: skb=000000005ec81488,page=000000006a5029b1,data=00000000c8e4114b
+          <idle>-0       [000] ..s1.   249.553470: consume_skb: skbaddr=000000006facc2ae location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   249.553471: skb_head_kfree: skb=000000006facc2ae,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   250.577407: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000c94766bb,len=1920
+          <idle>-0       [000] b.s2.   250.577417: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   250.577459: consume_skb: skbaddr=0000000034ff858e location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   250.577460: skb_head_frag_free: skb=0000000034ff858e,page=000000006a5029b1,data=000000006f41fdf4
+          <idle>-0       [000] ..s1.   250.577465: consume_skb: skbaddr=000000005ec81488 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   250.577466: skb_head_kfree: skb=000000005ec81488,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   251.601433: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000f146573b,len=1920
+          <idle>-0       [000] b.s2.   251.601444: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   251.601486: consume_skb: skbaddr=000000001dd43793 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   251.601486: skb_head_frag_free: skb=000000001dd43793,page=000000006a5029b1,data=00000000d14d511d
+          <idle>-0       [000] ..s1.   251.601493: consume_skb: skbaddr=0000000034ff858e location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   251.601493: skb_head_kfree: skb=0000000034ff858e,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   252.625383: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000101e6e1a,len=1920
+          <idle>-0       [000] b.s2.   252.625395: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   252.625437: consume_skb: skbaddr=000000007ed22f79 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   252.625437: skb_head_frag_free: skb=000000007ed22f79,page=00000000596284e3,data=00000000f17dbc9e
+          <idle>-0       [000] ..s1.   252.625443: consume_skb: skbaddr=000000001dd43793 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   252.625443: skb_head_kfree: skb=000000001dd43793,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   253.649422: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000b369c256,len=1920
+          <idle>-0       [000] b.s2.   253.649433: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   253.649475: consume_skb: skbaddr=000000009c5b5867 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   253.649476: skb_head_frag_free: skb=000000009c5b5867,page=00000000596284e3,data=000000004ceeb567
+          <idle>-0       [000] ..s1.   253.649481: consume_skb: skbaddr=000000007ed22f79 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   253.649482: skb_head_kfree: skb=000000007ed22f79,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   254.673365: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=00000000b3bb9d71,len=1920
+          <idle>-0       [000] b.s2.   254.673376: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   254.673418: consume_skb: skbaddr=00000000e860fb92 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   254.673419: skb_head_frag_free: skb=00000000e860fb92,page=00000000596284e3,data=0000000096cd4ee9
+          <idle>-0       [000] ..s1.   254.673424: consume_skb: skbaddr=00000000fa119d96 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   254.673424: skb_head_kfree: skb=00000000fa119d96,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   254.987116: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   254.987118: consume_skb: skbaddr=00000000e860fb92 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   254.987119: skb_head_kfree: skb=00000000e860fb92,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   255.697361: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000002531dad8,data=0000000008612d55,len=1920
+          <idle>-0       [000] b.s2.   255.697372: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   255.697415: consume_skb: skbaddr=000000004b086d6f location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   255.697415: skb_head_frag_free: skb=000000004b086d6f,page=00000000596284e3,data=00000000c16f8263
+          <idle>-0       [000] ..s1.   255.697420: consume_skb: skbaddr=00000000e860fb92 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   255.697420: skb_head_kfree: skb=00000000e860fb92,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   256.721347: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000001e85b9d7,len=1920
+          <idle>-0       [000] b.s2.   256.721358: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   256.721400: consume_skb: skbaddr=000000000ff8f3d8 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   256.721401: skb_head_frag_free: skb=000000000ff8f3d8,page=00000000596284e3,data=000000005d7852c3
+          <idle>-0       [000] ..s1.   256.721406: consume_skb: skbaddr=000000004b086d6f location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   256.721407: skb_head_kfree: skb=000000004b086d6f,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   257.745332: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000101ec064,len=1920
+          <idle>-0       [000] b.s2.   257.745344: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   257.745385: consume_skb: skbaddr=00000000e2fb105c location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   257.745385: skb_head_frag_free: skb=00000000e2fb105c,page=00000000596284e3,data=00000000c5cad4cc
+          <idle>-0       [000] ..s1.   257.745390: consume_skb: skbaddr=000000000ff8f3d8 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   257.745391: skb_head_kfree: skb=000000000ff8f3d8,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   258.769326: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000002d0e0e6a,len=1920
+          <idle>-0       [000] b.s2.   258.769338: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   258.769381: consume_skb: skbaddr=000000008944a212 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   258.769381: skb_head_frag_free: skb=000000008944a212,page=00000000596284e3,data=000000008a9187e8
+          <idle>-0       [000] ..s1.   258.769386: consume_skb: skbaddr=00000000e2fb105c location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   258.769387: skb_head_kfree: skb=00000000e2fb105c,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   259.794330: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000008cace931,len=1920
+          <idle>-0       [000] b.s2.   259.794342: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   259.794382: consume_skb: skbaddr=00000000c7ae7032 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   259.794383: skb_head_frag_free: skb=00000000c7ae7032,page=00000000596284e3,data=00000000136d0628
+          <idle>-0       [000] ..s1.   259.794388: consume_skb: skbaddr=000000008944a212 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   259.794388: skb_head_kfree: skb=000000008944a212,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   260.817311: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000001e552fe2,len=1920
+          <idle>-0       [000] b.s2.   260.817322: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   260.817363: consume_skb: skbaddr=000000004a3de9f5 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   260.817363: skb_head_frag_free: skb=000000004a3de9f5,page=00000000596284e3,data=00000000a12e4832
+          <idle>-0       [000] ..s1.   260.817369: consume_skb: skbaddr=00000000c7ae7032 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   260.817369: skb_head_kfree: skb=00000000c7ae7032,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   261.131116: skb_head_kmalloc: location=arp_create+0x6a/0x370,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   261.131210: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=000000000d348d17,len=640
+          <idle>-0       [000] ..s1.   261.131212: consume_skb: skbaddr=000000009c5b5867 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   261.131212: skb_head_kfree: skb=000000009c5b5867,data=000000000d348d17
+          <idle>-0       [000] ..s1.   261.131213: consume_skb: skbaddr=000000004a3de9f5 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   261.131214: skb_head_kfree: skb=000000004a3de9f5,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   261.131217: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000c64ee784,len=1920
+          <idle>-0       [000] ..s1.   261.131221: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   261.131221: consume_skb: skbaddr=000000009c5b5867 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   261.131221: skb_head_kfree: skb=000000009c5b5867,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   261.131221: consume_skb: skbaddr=00000000daf012f2 location=arp_process+0x294/0x840
+          <idle>-0       [000] ..s1.   261.131222: skb_head_frag_free: skb=00000000daf012f2,page=00000000596284e3,data=00000000cbf51ef3
+          <idle>-0       [000] ..s1.   261.841296: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=000000003e78a2b2,len=1920
+          <idle>-0       [000] b.s2.   261.841308: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   261.841350: consume_skb: skbaddr=00000000dcd0a669 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   261.841350: skb_head_frag_free: skb=00000000dcd0a669,page=00000000596284e3,data=000000002978df33
+          <idle>-0       [000] ..s1.   261.841355: consume_skb: skbaddr=00000000daf012f2 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   261.841356: skb_head_kfree: skb=00000000daf012f2,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   262.866300: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000d62819fb,len=1920
+          <idle>-0       [000] b.s2.   262.866312: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   262.866359: consume_skb: skbaddr=00000000aaa68b56 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   262.866360: skb_head_frag_free: skb=00000000aaa68b56,page=00000000596284e3,data=000000009f4568c4
+          <idle>-0       [000] ..s1.   262.866367: consume_skb: skbaddr=00000000dcd0a669 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   262.866367: skb_head_kfree: skb=00000000dcd0a669,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   263.889297: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=0000000048583725,len=1920
+          <idle>-0       [000] b.s2.   263.889308: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   263.889349: consume_skb: skbaddr=0000000086a47f47 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   263.889349: skb_head_frag_free: skb=0000000086a47f47,page=00000000596284e3,data=000000002585ba33
+          <idle>-0       [000] ..s1.   263.889355: consume_skb: skbaddr=000000009c5b5867 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   263.889356: skb_head_kfree: skb=000000009c5b5867,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   264.913273: napi_alloc_frag: location=cp_rx_poll+0xc1/0x440,page=000000006a5029b1,data=00000000f5018845,len=1920
+          <idle>-0       [000] b.s2.   264.913285: skb_head_kmalloc: location=alloc_skb_with_frags+0x45/0x1d0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   264.913327: consume_skb: skbaddr=00000000481a4d53 location=icmp_rcv+0x3a1/0x500
+          <idle>-0       [000] ..s1.   264.913328: skb_head_frag_free: skb=00000000481a4d53,page=00000000596284e3,data=00000000c1264f62
+          <idle>-0       [000] ..s1.   264.913334: consume_skb: skbaddr=0000000086a47f47 location=net_tx_action+0x0/0x270
+          <idle>-0       [000] ..s1.   264.913334: skb_head_kfree: skb=0000000086a47f47,data=00000000d0a6d6b8
+              ls-109     [000] .....   295.784751: skb_head_kmalloc: location=sock_wmalloc+0x30/0x50,data=00000000d0a6d6b8,len=640
+              ls-109     [000] .....   295.784755: kfree_skb: skbaddr=00000000481a4d53 protocol=0 location=unix_stream_connect+0x2df/0x750 reason: NOT_SPECIFIED
+              ls-109     [000] .....   295.784756: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
+              ls-109     [000] .....   295.784762: skb_head_kmalloc: location=sock_wmalloc+0x30/0x50,data=00000000d0a6d6b8,len=640
+              ls-109     [000] .....   295.784763: kfree_skb: skbaddr=00000000481a4d53 protocol=0 location=unix_stream_connect+0x2df/0x750 reason: NOT_SPECIFIED
+              ls-109     [000] .....   295.784763: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
+              ls-109     [000] .....   295.784957: skb_head_kmalloc: location=sock_wmalloc+0x30/0x50,data=00000000d0a6d6b8,len=640
+              ls-109     [000] .....   295.784958: kfree_skb: skbaddr=00000000481a4d53 protocol=0 location=unix_stream_connect+0x2df/0x750 reason: NOT_SPECIFIED
+              ls-109     [000] .....   295.784958: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
+              ls-109     [000] .....   295.784961: skb_head_kmalloc: location=sock_wmalloc+0x30/0x50,data=00000000d0a6d6b8,len=640
+              ls-109     [000] .....   295.784962: kfree_skb: skbaddr=00000000481a4d53 protocol=0 location=unix_stream_connect+0x2df/0x750 reason: NOT_SPECIFIED
+              ls-109     [000] .....   295.784962: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
+          <idle>-0       [000] ..s1.   300.043114: skb_head_kmalloc: location=__neigh_notify+0x39/0xc0,data=00000000d0a6d6b8,len=640
+          <idle>-0       [000] ..s1.   300.043117: consume_skb: skbaddr=00000000481a4d53 location=netlink_broadcast_filtered+0x122/0x4a0
+          <idle>-0       [000] ..s1.   300.043118: skb_head_kfree: skb=00000000481a4d53,data=00000000d0a6d6b8
