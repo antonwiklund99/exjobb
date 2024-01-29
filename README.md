@@ -1,19 +1,21 @@
 ## Buildroot
 `make menuconfig` to configure.\
 Checked options:
-- Target Architecture = x86_64
-- Install glibc utilities
-- Enable C++ support (apperently needed by iperf3)
-- Disable root login and login prompt
-- Disable kernel
+- Target Architecture = x86_64 (Target options)
+- Enable C++ support (apperently needed by iperf3) (Toolchain)
+- Disable 'Enable root login with password' (System configuration)
+- Disable 'Run a getty (login prompt) after boot' (System configuration)
+- Disable Linux Kernel (Kernel)
 - Enable iperf3 (Target packages -> Networking applications)
-- ext4 root filesystem
+- Enable ext2/3/4 root filesystem (Filesystem images)
+    - ext4 variant
+- Disable 'tar the root filesystem' (Filesystem images)
 
 Copy init scripts to rootfs (maybe have to do one make before this):
 ```
 cp inittab buildroot/output/target/etc/inittab 
-# or just add console::respawn:-/bin/sh to etc/inittab
 cp setup_client_net.sh buildroot/output/target/etc/init.d/S41network_qemu
+cp -p enable_events.sh buildroot/output/target/
 cd buildroot
 make
 ```
@@ -25,11 +27,12 @@ Run `setup_host_net.sh` to setup host network (create tap, assign ip and routing
 Run `delete_host_net.sh` to remove the host network (remove tap and routing).
 The script `setup_client_net.sh` is run during by the init script in qemu on boot which sets up ip and routing on the client
 
-Need to enable this driver in the kernel for `-device rtl8139` to work.
+Need to enable this driver in the kernel for `-device rtl8139` to work. (Device Drivers -> Network device support -> Ethernet driver support -> RealTek RTL-8139 C+ PCI Fast Ethernet Adapter support)
 ![Enabled realtek network drivers](misc/realtek-network-drivers.png)
 
 ## Linux Kernel
 ```
+mkdir linux-x86-build
 cd linux
 
 # Default configuration
