@@ -1,0 +1,1 @@
+Uses multiple [[Slab allocator]]s for different power of 2 sizes, i.e one cache for 64 byte objects, 128, 256, etc. So the allocated memory will be a power of 2.
