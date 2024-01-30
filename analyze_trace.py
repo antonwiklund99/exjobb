@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import tabulate
+import sys
 
 def index_cond(xs, cond):
     for i in range(len(xs)):
@@ -12,7 +13,7 @@ def index_cond(xs, cond):
 # https://www.kernel.org/doc/html/v4.19/trace/events-kmem.html
 
 events = []
-with open("logs/trace_ping_kmem_events_20230129", "r") as f:
+with open(sys.argv[1], "r") as f:
     for line in f.readlines()[12:]:
         [meta,name,out] = [x.strip() for x in line.strip().split(":")]
         [task_pid,cpu,irq_context,timestamp] = [x.strip() for x in meta.split()]
@@ -30,10 +31,12 @@ page_free_times = []
 use_times = []
 ptrs = []
 pages = []
+real_use_times = []
 
 # State
 active_skb_ptrs = {}
 active_pages = {}
+active_pages_with_data = {}
 freed_skb_ptrs = {}
 freed_pages = {}
 
@@ -53,6 +56,7 @@ for event in events:
                 pages.append(event["page"])
                 ptrs.append(frag["ptr"])
                 use_times.append(frag["free_time"] - frag["alloc_time"])
+                real_use_times.append(frag["free_time"] - frag["data_write_time"])
         active_pages[page] = {
             "alloc_time": event["timestamp"],
             "frags": []
@@ -68,6 +72,22 @@ for event in events:
             "ptr": event["ptr"],
             "alloc_time": event["timestamp"]
         })
+    # Page fragment alloc
+    elif event["name"] == "finalize_skb_around":
+        # Search for page
+        page = 0
+        for p,f in active_pages.items():
+            frag_index = index_cond(f["frags"], lambda x:x["ptr"] == event["ptr"])
+            if frag_index != -1:
+                page = p
+                break
+        # Ignore pages that were allocated before start of trace
+        assert(not page in freed_pages)
+        if not page in active_pages:
+            continue
+        # Add data write timestamp
+        assert(frag_index != -1)
+        active_pages[page]["frags"][frag_index]["data_write_time"] = event["timestamp"]
     # Page fragment freeing
     elif event["name"] == "skb_head_frag_free":
         page = event["page"]
@@ -77,7 +97,9 @@ for event in events:
             continue
         # Add free timestamp
         frag_index = index_cond(active_pages[page]["frags"], lambda x:x["ptr"] == event["ptr"])
-        assert(frag_index != -1)
+        if (frag_index == -1):
+            print("WARNING: Bug")
+            continue
         active_pages[page]["frags"][frag_index]["free_time"] = event["timestamp"]
     # Page freeing
     elif event["name"] == "mm_page_free":
@@ -95,7 +117,7 @@ for event in events:
 
 none_page_free_times = [free_times[i] - page_free_times[i] for i in range(len(free_times))]
 print(tabulate.tabulate(
-    zip(ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times),
-    headers=["Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time"],
+    zip(ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times, real_use_times),
+    headers=["Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time", "Real use time"],
     tablefmt="github"
 ))
