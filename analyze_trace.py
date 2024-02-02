@@ -15,16 +15,19 @@ def index_cond(xs, cond):
 events = []
 with open(sys.argv[1], "r") as f:
     for line in f.readlines()[12:]:
-        [meta,name,out] = [x.strip() for x in line.strip().split(":")]
-        [task_pid,cpu,irq_context,timestamp] = [x.strip() for x in meta.split()]
-        event = {"name": name, "timestamp": float(timestamp)}
-        for kv in out.split():
+        splitted = line.strip().split()
+        [task_pid,cpu,irq_context] = splitted[:3]
+        timestamp = float(splitted[3].replace(":",""))
+        name = splitted[4].replace(":","")
+        event = {"name": name, "timestamp": timestamp}
+        for kv in splitted[5:]:
             [k,v] = kv.strip().split("=")
             event[k] = v 
         events.append(event)
         #print(f"{name}@{timestamp}: {out}")
 
 # Stats
+types = []
 lifetimes = []
 free_times = []
 page_free_times = []
@@ -40,7 +43,7 @@ active_pages_with_data = {}
 freed_skb_ptrs = {}
 freed_pages = {}
 
-for event in events:
+for (line_num,event) in enumerate(events):
     # Page allocation
     if event["name"] == "mm_page_alloc":
         page = event["page"]
@@ -50,6 +53,7 @@ for event in events:
         if page in freed_pages:
             page_entry = freed_pages.pop(page)
             for frag in page_entry["frags"]:
+                types.append("frag")
                 lifetimes.append(event["timestamp"] - frag["alloc_time"])
                 free_times.append(event["timestamp"] - frag["free_time"])
                 page_free_times.append(event["timestamp"] - page_entry["free_time"])
@@ -72,22 +76,32 @@ for event in events:
             "ptr": event["ptr"],
             "alloc_time": event["timestamp"]
         })
-    # Page fragment alloc
+    # Finalize skb, this function creates the actual skb struct. We assume that after
+    # this function is called that the skb->head is starting to be used and the
+    # old data is overwritten (current data is in memory).
     elif event["name"] == "finalize_skb_around":
         # Search for page
-        page = 0
+        page = -1
         for p,f in active_pages.items():
             frag_index = index_cond(f["frags"], lambda x:x["ptr"] == event["ptr"])
             if frag_index != -1:
                 page = p
                 break
-        # Ignore pages that were allocated before start of trace
-        assert(not page in freed_pages)
-        if not page in active_pages:
-            continue
-        # Add data write timestamp
-        assert(frag_index != -1)
-        active_pages[page]["frags"][frag_index]["data_write_time"] = event["timestamp"]
+        # skb->head was allocated with page fragments
+        if page != -1:
+            # Ignore pages that were allocated before start of trace
+            assert(not page in freed_pages)
+            if not page in active_pages:
+                continue
+            # Add data write timestamp
+            assert(frag_index != -1)
+            active_pages[page]["frags"][frag_index]["data_write_time"] = event["timestamp"]
+        # skb->head was allocated with kmalloc
+        else:
+            ptr = event["ptr"]
+            if not ptr in active_skb_ptrs:
+                continue
+            active_skb_ptrs[ptr]["data_write_time"] = event["timestamp"]
     # Page fragment freeing
     elif event["name"] == "skb_head_frag_free":
         page = event["page"]
@@ -114,10 +128,41 @@ for event in events:
         page_entry["free_time"] = event["timestamp"]
         assert(not page in freed_pages)
         freed_pages[page] = page_entry
+    # SKB kmalloc
+    elif event["name"] == "skb_head_kmalloc":
+        ptr = event["ptr"]
+        assert(not (ptr in active_skb_ptrs and ptr in freed_skb_ptrs))
+        active_skb_ptrs[ptr] = {
+            "len": int(event["len"]),
+            "alloc_time": event["timestamp"]
+        }
+    # SKB kfree
+    elif event["name"] == "skb_head_kfree":
+        ptr = event["ptr"]
+        assert(not ptr in freed_skb_ptrs)
+        # Ignore skb's allocated before start of trace
+        if not ptr in active_skb_ptrs:
+            continue
+        ptr_entry = active_skb_ptrs.pop(ptr)
+        ptr_entry["free_time"] = event["timestamp"]
+        freed_skb_ptrs[ptr] = ptr_entry
+    # kmalloc or small head alloc (small heads are allocated from a kmem_cache rather than with kmalloc)
+    elif event["name"] == "kmalloc" or event["name"] == "skb_small_head_alloc":
+        ptr = event["ptr"]
+        if ptr in freed_skb_ptrs:
+            entry = freed_skb_ptrs.pop(ptr)
+            types.append("kmalloc")
+            lifetimes.append(event["timestamp"] - entry["alloc_time"])
+            free_times.append(event["timestamp"] - entry["free_time"])
+            page_free_times.append("-")
+            pages.append("-")
+            ptrs.append(ptr)
+            use_times.append(entry["free_time"] - entry["alloc_time"])
+            real_use_times.append(entry["free_time"] - entry["data_write_time"])
 
-none_page_free_times = [free_times[i] - page_free_times[i] for i in range(len(free_times))]
+none_page_free_times = [free_times[i] - page_free_times[i] if types[i] == "frag" else "-" for i in range(len(free_times))]
 print(tabulate.tabulate(
-    zip(ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times, real_use_times),
-    headers=["Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time", "Real use time"],
+    zip(types, ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times, real_use_times),
+    headers=["Type", "Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time", "Real use time"],
     tablefmt="github"
 ))
