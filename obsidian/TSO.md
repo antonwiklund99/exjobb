@@ -1,0 +1,1 @@
+For a few years now Linux has supported network adapters which perform "TCP segmentation offload," or TSO. With a TSO-capable adapter, the kernel can prepare much larger packets (64KB, say) for outgoing data; the adapter will then re-segment the data into smaller packets as the data hits the wire. That cuts the kernel's per-packet overhead by a factor of 40.
