@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define BUFSIZE 1024
+#define BUFSIZE (65536)
 
 void error(char *msg)
 {
@@ -19,8 +19,9 @@ void error(char *msg)
 int main(int argc, char **argv)
 {
 	int sockfd;					   /* socket */
+	int newsockfd;				   /* accepted sockets */
 	int portno;					   /* port to listen on */
-	unsigned int clientlen;				   /* byte size of client's address */
+	unsigned int clientlen;		   /* byte size of client's address */
 	struct sockaddr_in serveraddr; /* server's addr */
 	struct sockaddr_in clientaddr; /* client addr */
 	struct hostent *hostp;		   /* client host info */
@@ -39,7 +40,7 @@ int main(int argc, char **argv)
 	/*
 	 * socket: create the parent socket
 	 */
-	sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 	if (sockfd < 0)
 		error("ERROR opening socket");
 
@@ -66,21 +67,32 @@ int main(int argc, char **argv)
 		error("ERROR on binding");
 
 	/*
-	 * main loop: wait for a datagram, then echo it
+	 * main loop: wait for a tcp connection
 	 */
+	listen(sockfd, 1);
 	clientlen = sizeof(clientaddr);
 	printf("Listening on port %d...\n", portno);
 	while (1)
 	{
-		/*
-		 * recvfrom: receive a UDP datagram from a client
-		 */
-		bzero(buf, BUFSIZE);
-		n = recvfrom(sockfd, buf, BUFSIZE, 0,
-					 (struct sockaddr *)&clientaddr, &clientlen);
-		if (n < 0)
-			error("ERROR in recvfrom");
+		newsockfd = accept(sockfd, (struct sockaddr *) &clientaddr, &clientlen);
+		if (newsockfd < 0)
+			error("ERROR on accept");
+		puts("Accepted new connection");
+		
+		// Read data
+		while (1) {
+			bzero(buf, BUFSIZE);
+			n = read(newsockfd, buf, BUFSIZE);
+			if (n < 0)
+				error("ERROR reading from socket");
+			// EOF (socket closed)
+			if (n == 0) {
+				puts("Socket closed");
+				close(newsockfd);
+				break;
+			}
+			printf("Server received %ld/%d\n", strlen(buf), n);
+		}
 
-		printf("server received %ld/%d bytes: %s\n", strlen(buf), n, buf);
 	}
 }
