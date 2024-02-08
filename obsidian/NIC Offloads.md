@@ -50,7 +50,7 @@ In order to identify which packets can be aggregated, GRO compares the headers o
 
 Packets can be aggregated up to a resulting size of 64 kbytes. On a link with MTU=1500, it means it can aggregate up to 43 packets into 1. One possible counter-argument against GRO could be the number of comparisons (43 in this case) required. But in reality, they would be there anyway in order to locate the destination socket. And secondly, it saved 42 times of network stack processing on interface handling, route calculation, and so on. Currently a sustained rate of 10Gbps is impossible without GRO, even with jumbo frames. In a way GRO is a flexible and on-demand jumbo frame style of optimization.
 
-So where are the packages merged? In the following functions:
+So where are the packages merged?
 
 **`napi_gro_receive()`**
 The function `napi_gro_receive()` deals processing network data for GRO (if GRO is enabled for the system) and sending the data up the stack toward the protocol layers. Much of this logic is handled in a function called `dev_gro_recieve()`.
@@ -83,4 +83,40 @@ if (unlikely(gro_list->count >= MAX_GRO_SKBS))
 		gro_list->count++;
 ```
 
-Otherwise we do nothing. 
+`dev_gro_receive()` returns a `gro_result`, depending on what it did with the skb. If it got flushed, it `GRO_NORMAL` and `napi_skb_finish()` calls `gro_normal_one()` to send the package up the stack. If it got merged (which it did when we sent over a TCP connection), the protocol layer decides whether it the old skb should be freed or not. 
+
+And this is done in a function called `skb_gro_receive()`.
+
+The callback chain for a TCP/IPv4 steam goes like:
+`napi_gro_receive() -> dev_gro_receive() -> (IPv4) inet_gro_receive() -> (TCP) tcp_gro_receive() -> skb_gro_receive()`
+
+`skb_gro_receive()` is the one that is doing the merge of skbs. There are different ways it can merge skbs. First off it checks whether the combined len would be higher that the maximum 64KB. if so, it returns that it is too big to merge. 
+If not, then we merge the skbs: There are three ways of doing the merging:
+
+1. First case is if we want to only merge the non-paged data from the skb, and the number of frags are not more than the maximum number allowed. Then we add the frags to the other skb. In this case, we would need to free the head skb, that is the skb but not its frags. So we set `NAPI_GRO_CB(skb)->free = NAPI_GRO_FREE`.
+
+2. Second case is when we want some or all of the linear data, as well as the paged data. This is done only if there are paged data, not else. We also check here if the number of frags of the merged skb would not become larger than maximum allowed frags. So what we do is firstly take the skb, or the data we want from it, and make it into a page descriptor and add it to the other frags. The we simply copy the data in skb frags to the other skbs frags. In this case we would not need to free the head skb, so we set  `NAPI_GRO_CB(skb)->free = NAPI_GRO_FREE_STOLEN_HEAD`.
+
+>    ***NOTE:** what happens to the "old" frags?*
+
+3. if the other cases did not match, we simply transfer the data we want from the skb to the other skb frag list. The headroom of the skb is released to allow clone to use it.
+
+If `NAPI_GRO_CB(skb)->free` is set then `dev_gro_receive()` will return `GRO_MERGED_FREE`, otherwise `GRO_MERGED`.
+
+So where is the offset decided? Before calling `dev_gro_receive()`, `napi_gro_receive()` calls `skb_gro_reset_offset()` where the offset is reset to 0. So we want all the data, from where `skb->data` is pointing to. 
+
+So now `de_gro_receive()` sends the `gro_result` back to `napi_skb_finish()`. Depending on the result it does different things with the skb.
+* `GRO_NORMAL`: Send the package up the stack (flush).
+* `GRO_MERGED_FREE`: We do:
+		```
+		if (NAPI_GRO_CB(skb)->free == NAPI_GRO_FREE_STOLEN_HEAD)
+			napi_skb_free_stolen_head(skb);
+		else if (skb->fclone != SKB_FCLONE_UNAVAILABLE)
+			__kfree_skb(skb);
+		else
+			__napi_kfree_skb(skb, SKB_CONSUMED);
+		break;
+		```
+* `GRO_HELD / GRO_MERGED / GRO_CONSUMED`: Do nothing.
+
+[[Moving up the network stack]]
