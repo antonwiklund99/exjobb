@@ -60,10 +60,15 @@ Rarely used only called from here in **\_\_strp__recv** (net/strparser/strparser
 3) Set the fraglist pointer of the **skb_shinfo** (shared info/header) to first.
 4) Call **\_\_copy_skb_header** to copy all the header fields from **first** to the new **sk_buff**.
 ### alloc_skb_with_frags
-Allocates an **sk_buff** with page frags. The argument **order** determines the maximal order for frags (max order of allocated pages), so it can be used to allocate a paged **skb**, given a maximal order for frags. (**napi/netdev_alloc_skb** allocates page fragments instead of full pages).
+Allocates an **sk_buff** (possibly) using **skb_frag**'s in shinfo(skb)->frags (non-linear part of **sk_buff**. It will allocate **header_len** in skb->head and **data_len** bytes in **skb_frag**'s.
 ##### Function flow
-1) Call **alloc_skb** to allocate a **sk_buff** with header_len skb->head.
-2) Allocate pages (up to order amount per iteration) to get data_len bytes. Add pages to **sk_buff->head** by calling **skb_fill_page_desc**.
+1) Call **alloc_skb** to allocate a **sk_buff**, this will allocate a **sk_buff** with a **skb->head** of **header_len** bytes.
+2) Allocate pages of max order _order_. Allocate pages until we have allocated more or exactly **data_len** bytes. Each iteration allocate one order below the order that would fit the rest of the data bytes. For example, if we wanted to allocate 7\*PAGE_SIZE. The pages allocated in frags would be:
+	1) 4 pages (order 2), remaining bytes = 3\*PAGE_SIZE
+	2) 2 pages (order 1), remainng bytes = PAGE_SIZE
+	3) 1 page (order 0), remaining bytes = 0
+	For each allocation add the pages to the **skb_frag** in shinfo(skb)->frags with **skb_fill_page_desc**. This function will fill in the fields in the skb_frag i.e. bv_page (pointer to the page), bv_offset (offset where the fragment starts, this will always be 0 in this case since we allocate new pages) and bv_size (number of bytes in the fragment, this will be min(PAGE_SIZE << order, data_len)).
+	When the allocation order is > 0, we allocate the pages with **alloc_pages** with the \_\_GFP_COMP flag meaning that the pages are allocated as [compound pages](https://lwn.net/Articles/619514/).
 ### alloc_skb_fclone
 Call **alloc_skb** with SKB_ALLOC_FCLONE flag thus enabling use of the fclone cache if that is enabled.
 

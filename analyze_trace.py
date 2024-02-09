@@ -35,6 +35,8 @@ use_times = []
 ptrs = []
 pages = []
 real_use_times = []
+alloc_funcs = []
+free_funcs = []
 
 # State
 active_skb_ptrs = {}
@@ -42,8 +44,10 @@ active_pages = {}
 active_pages_with_data = {}
 freed_skb_ptrs = {}
 freed_pages = {}
+consume_skb_locations = {}
 
 for (line_num,event) in enumerate(events):
+    #print(f"{event['name']}: {line_num}")
     # Page allocation
     if event["name"] == "mm_page_alloc":
         page = event["page"]
@@ -61,6 +65,8 @@ for (line_num,event) in enumerate(events):
                 ptrs.append(frag["ptr"])
                 use_times.append(frag["free_time"] - frag["alloc_time"])
                 real_use_times.append(frag["free_time"] - frag["data_write_time"])
+                alloc_funcs.append(frag["alloc_func"])
+                free_funcs.append(frag["free_func"])
         active_pages[page] = {
             "alloc_time": event["timestamp"],
             "frags": []
@@ -74,7 +80,8 @@ for (line_num,event) in enumerate(events):
             continue
         active_pages[page]["frags"].append({
             "ptr": event["ptr"],
-            "alloc_time": event["timestamp"]
+            "alloc_time": event["timestamp"],
+            "alloc_func": event["location"]
         })
     # Finalize skb, this function creates the actual skb struct. We assume that after
     # this function is called that the skb->head is starting to be used and the
@@ -104,6 +111,10 @@ for (line_num,event) in enumerate(events):
             active_skb_ptrs[ptr]["data_write_time"] = event["timestamp"]
     # Page fragment freeing
     elif event["name"] == "skb_head_frag_free":
+        # Save function that called skb_consume
+        skb_ptr = event["skb"]
+        assert(skb_ptr in consume_skb_locations)
+        free_func = consume_skb_locations.pop(skb_ptr)
         page = event["page"]
         # Ignore pages that were allocated before start of trace
         assert(not page in freed_pages)
@@ -115,6 +126,7 @@ for (line_num,event) in enumerate(events):
             print("WARNING: Bug")
             continue
         active_pages[page]["frags"][frag_index]["free_time"] = event["timestamp"]
+        active_pages[page]["frags"][frag_index]["free_func"] = free_func
     # Page freeing
     elif event["name"] == "mm_page_free":
         page = event["page"]
@@ -134,7 +146,8 @@ for (line_num,event) in enumerate(events):
         assert(not (ptr in active_skb_ptrs and ptr in freed_skb_ptrs))
         active_skb_ptrs[ptr] = {
             "len": int(event["len"]),
-            "alloc_time": event["timestamp"]
+            "alloc_time": event["timestamp"],
+            "alloc_func": event["location"]
         }
     # SKB kfree
     elif event["name"] == "skb_head_kfree":
@@ -143,8 +156,11 @@ for (line_num,event) in enumerate(events):
         # Ignore skb's allocated before start of trace
         if not ptr in active_skb_ptrs:
             continue
+        skb_ptr = event["skb"]
+        assert(skb_ptr in consume_skb_locations)
         ptr_entry = active_skb_ptrs.pop(ptr)
         ptr_entry["free_time"] = event["timestamp"]
+        ptr_entry["free_func"] = consume_skb_locations.pop(skb_ptr)
         freed_skb_ptrs[ptr] = ptr_entry
     # kmalloc or small head alloc (small heads are allocated from a kmem_cache rather than with kmalloc)
     elif event["name"] == "kmalloc" or event["name"] == "skb_small_head_alloc":
@@ -159,10 +175,17 @@ for (line_num,event) in enumerate(events):
             ptrs.append(ptr)
             use_times.append(entry["free_time"] - entry["alloc_time"])
             real_use_times.append(entry["free_time"] - entry["data_write_time"])
+            alloc_funcs.append(entry["alloc_func"])
+            free_funcs.append(entry["free_func"])
+    # SKB consume, save location from where this was called
+    elif event["name"] == "consume_skb":
+        skb_ptr = event["skbaddr"]
+        assert(not skb_ptr in consume_skb_locations)
+        consume_skb_locations[skb_ptr] = event["location"]
 
 none_page_free_times = [free_times[i] - page_free_times[i] if types[i] == "frag" else "-" for i in range(len(free_times))]
 print(tabulate.tabulate(
-    zip(types, ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times, real_use_times),
-    headers=["Type", "Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time", "Real use time"],
+    zip(types, ptrs, pages, lifetimes, use_times, free_times, none_page_free_times, page_free_times, real_use_times, alloc_funcs, free_funcs),
+    headers=["Type", "Addr", "Page", "Lifetime", "Use time", "Free time", "None-page free time", "Page free time", "Real use time", "Alloc func", "Free func"],
     tablefmt="github"
 ))
