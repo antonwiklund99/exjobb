@@ -103,12 +103,14 @@ for (line_num,event) in enumerate(events):
             # Add data write timestamp
             assert(frag_index != -1)
             active_pages[page]["frags"][frag_index]["data_write_time"] = event["timestamp"]
+            active_pages[page]["frags"][frag_index]["skb_ptr"] = event["skb"]
         # skb->head was allocated with kmalloc
         else:
             ptr = event["ptr"]
             if not ptr in active_skb_ptrs:
                 continue
             active_skb_ptrs[ptr]["data_write_time"] = event["timestamp"]
+            active_skb_ptrs[ptr]["skb_ptr"] = event["skb"]
     # Page fragment freeing
     elif event["name"] == "skb_head_frag_free":
         # Save function that called skb_consume
@@ -149,6 +151,13 @@ for (line_num,event) in enumerate(events):
             "alloc_time": event["timestamp"],
             "alloc_func": event["location"]
         }
+    # SKB alloc_with_frags (just set alloc func from here instead of alloc_skb)
+    elif event["name"] == "alloc_skb_with_frags":
+        skb_ptr = event["skb"]
+        for entry in active_skb_ptrs.values():
+            if entry["skb_ptr"] == skb_ptr:
+                entry["alloc_func"] = event["location"]
+                break
     # SKB kfree
     elif event["name"] == "skb_head_kfree":
         ptr = event["ptr"]

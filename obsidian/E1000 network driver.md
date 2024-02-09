@@ -4,28 +4,29 @@ The following interrupts are enabled:
 ![[Pasted image 20240205104204.png]]
 The **RXT0** interrupt will start a timer whenever a packet is received, if the timer exceeds **RDTR** (defaults to 8) then the interrupt is triggered (no new packets in that time).
 ![[Pasted image 20240205104858.png]]
+The **TXDW** interrupts whenever a TX descriptor is done.
 ## e1000_intr (interrupt handler)
-The interrupt handler. Checks the icr (interrupt control register) if we have errors (LCS or RXSEQ) and handle link status. Then calls **napi_schedule_prep** and **__napi_schedule** to schedule **e1000_clean** in NAPI context ([[Softirq]]).
+The interrupt handler. Checks the icr (interrupt control register) for errors to handle and changes in link status(LCS or RXSEQ). Then calls **napi_schedule_prep** and **__napi_schedule** to schedule **e1000_clean** in NAPI context ([[Softirq]]).
 
 ## e1000_clean (poll callback)
 The NAPI RX polling callback, will be called on TX interrupts as well i.e. TX descriptor finished (TXDW).
 This function does two things:
-* Reclaims resources (TX descriptors, SKB's, etc.) after transmission has finished (**e1000_clean_tx_irq**)
-* Poll the NIC for received packets and send them up the network stack (**adapter->clean_rx, e1000_clean_rx_irq** or **e1000_clean_jumbo_rx_irq**).
+* Reclaims resources (TX descriptors, SKB's, etc.) after a transmission has finished by calling **e1000_clean_tx_irq**.
+* Poll the NIC for received packets and send them up the network stack by calling **adapter->clean_rx**. This function is either **e1000_clean_rx_irq** or **e1000_clean_jumbo_rx_irq** depending on if jumbo frames are enabled.
 ### e1000_clean_rx_irq
 This function reads received packets (rx_descriptors) until either:
-* No more rx_descriptors available (no rx_desc with rx_desc->status == DONE)
-* Number of packets received equals the budget i.e. max number of packets we are allowed to receive per this napi 'session' (work_done >= work_to_do).
+* No more rx_descriptors available (no rx_desc with rx_desc.status == DONE)
+* Number of packets received equals the budget i.e. max number of packets we are allowed to receive in this NAPI "session" (work_done >= work_to_do).
 For each **rx_desc**:
-1) Create a **sk_buff** with the received data. 
-	- If data length < **copy_break** (default 256): allocate a skb with **napi_alloc_skb** (including full data) by calling **e1000_alloc_rx_skb**. Then copy the DMA mapped data from the NIC to the skb using **skb_put_data**. All of this is done inside **e1000_copybreak**.
-	- Else: don't copy the data, instead build the **sk_buff** around the data by calling **napi_build_skb**. We then unmap the data from DMA and set the **buffer_info->rxbuf.data** to NULL to signal that we need to allocate new memory for this and DMA map it.
+1) Create a **sk_buff** for the received packet. 
+	- If data length < **copy_break** (default 256): allocate a skb with **napi_alloc_skb** (including full data) by calling **e1000_alloc_rx_skb**. Then copy the data from the DMA mapped area in the RX descriptor to **skb->head** using **skb_put_data**. All of this is done inside **e1000_copybreak**.
+	- Else: don't copy the data, instead build the **sk_buff** around the data by calling **napi_build_skb**. Then unmap the data from DMA and set the **buffer_info.rxbuf.data** to NULL to signal that we need to allocate new memory for this descriptor and DMA map it.
 2) Some error checking/checking for discarding is done (not important)
-3) We then reach the **process_skb** label.  That either calls:
-	- **skb_put** - if we did not copy the data and just called **napi_build_skb**, this function will not set the tail pointer so we use put here to set **skb->tail** to the packet length.
-	- **skb_trim** - if we did copy the data with **skb_put_data** this will set the **skb->tail** to the actual packet length, we might have copied more data than necessary if we don't use Ethernet RX FCS offloading (if above).
+3) We then reach the **process_skb** label.  Here we fix the **skb.tail** pointer with:
+	- **skb_put** - if we did not copy the data and just called **napi_build_skb** the tail pointer will not be set so we use **skb_put** here to set **skb->tail** to the packet length.
+	- **skb_trim** - if we did copy the data with **skb_put_data** **skb_trim** will set the **skb->tail** to the actual packet length, we might have copied more data than the packet length.
 4) **e1000_receive_skb** is then called that sets the protocol on the **sk_buff** and then calls **napi_gro_receive** on the skb that sends it up the network stack.
-In each iteration we also check if the number of buffers we have processed (**cleaned_count**) exceeds E1000_RX_BUFFER_WRITE (16) if so we call **adapter->alloc_rx_buf** (**e1000_alloc_rx_buffers**) to give back the descriptors to the NIC and allocate memory and DMA map it if necessary, this is done in bulk.
+In each iteration we also check if the number of buffers we have processed (**cleaned_count**) exceeds E1000_RX_BUFFER_WRITE (16) if so we call **adapter->alloc_rx_buf** (**e1000_alloc_rx_buffers**) to give back processed descriptors to the NIC and allocate new memory and DMA map it if necessary (if we did not used copybreak when creating the skb). This is done in bulk to speed things up.
 #### e1000_alloc_rx_buffers
 Allocates and maps data for RX descriptors.
 Tries to allocate and give back _cleaned_count_ **rx_desc**.
