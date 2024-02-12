@@ -9,7 +9,7 @@ The first thing `napi_gro_complete()` does is check the number of segments aggre
 
 After that call it will pass the skbs to `ip_sublist_rcv()`. This function will for each skb in the list call `ip_rcv_finish()`,   which will in turn call on `tcp_v4_early_demux(skb)` or `udp_v4_early_demux(skb)`, depending on the transport protocol, and in these functions the package is demultiplexed to a socket. `ip_list_rcv_core()` will also initialize the virtual path cache for the packet. It describes how the packet travels inside Linux networking. So mostly routing etc.
 
-Once the skbs has gone through this process the skb list will be passed on from `ip_sublist_rcv()` to `ip_list_rcv_finish() -> ip_sublist_rcv_finish() -> dst_input() -> (IPv4) ip_local_deliver() / (IPv6) ip6_input()`. And from there and some more function calls, it will finally deliver the package to the transport layer.
+Once the skbs has gone through this process the skb list will be passed on from `ip_sublist_rcv()` to `ip_list_rcv_finish() -> ip_sublist_rcv_finish() -> dst_input() -> (IPv4) ip_local_deliver() / (IPv6) ip6_input()`. And from there and some more function calls, it will finally deliver the package to the transport layer. This is in `ip_protocol_deliver_rcu()`. 
 
 We will look at `tcp_v4_rcv()`. `upd_rcv()` is used for UDP packages. 
 
@@ -68,7 +68,7 @@ if (sk->sk_state == TCP_NEW_SYN_RECV) {
 ```
 
 #### Adding the package to the socket
-If the socket is locked, the packet must be added to the backlog queue. If there is no process blocked waiting to consume data on the socket, or the state of the socket is `TCP_LISTEN` the packet must be processed immediately via the call to `tcp_v4_do_rcv()`. If the socket is locked, the packet must be added to the backlog queue with `tcp_add_backlog()`.
+If the socket is locked, the packet must be added to the backlog queue. If there is no process blocked waiting to consume data on the socket, or the state of the socket is `TCP_LISTEN` the packet must be processed immediately via the call to `tcp_v4_do_rcv()`. If the socket is locked, the packet must be added to the backlog queue with `tcp_add_backlog()`. This queue is processed by the owner of the socket lock right before it is released.
 ```
 if (sk->sk_state == TCP_LISTEN) {
 	ret = tcp_v4_do_rcv(sk, skb);
@@ -215,4 +215,35 @@ void kfree_skb_partial(struct sk_buff *skb, bool head_stolen)
 	}
 }
 ```
+
+If coalesce fails, then we simply add the skb to the backlog, without merging. 
+```
+no_coalesce:
+	limit = (u32)READ_ONCE(sk->sk_rcvbuf) + (u32)(READ_ONCE(sk->sk_sndbuf) >> 1);
+
+	/* Only socket owner can try to collapse/prune rx queues
+	 * to reduce memory overhead, so add a little headroom here.
+	 * Few sockets backlog are possibly concurrently non empty.
+	 */
+	limit += 64 * 1024;
+
+	if (unlikely(sk_add_backlog(sk, skb, limit))) {
+		bh_unlock_sock(sk);
+		*reason = SKB_DROP_REASON_SOCKET_BACKLOG;
+		__NET_INC_STATS(sock_net(sk), LINUX_MIB_TCPBACKLOGDROP);
+		return true;
+	}
+	return false;
+```
+
+Jumping back to the `tcp_v4_rcv()` it unlocks the socket, now when it is done with it, and decrement the ref counter, i.e. if it holds a reference. 
+```
+if (refcounted)
+	sock_put(sk);
+```
+
+`sock_put()` un-grab socket and destroy it, if it was the last reference. Now it returns whether the delivery was successful or not to `ip_protocol_deliver_rcu()`. If it was not, it will resubmit the package (to the upper layers). 
+
+
+
 

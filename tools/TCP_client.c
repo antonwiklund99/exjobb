@@ -37,7 +37,7 @@ int main(int argc, char **argv){
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = inet_addr(ip);
 
-    if (connect(sockfd,&addr,sizeof(addr)) < 0)
+    if (connect(sockfd,(struct sockaddr*)&addr,sizeof(addr)) < 0)
         error("ERROR connecting");
 
     int i = 1;
