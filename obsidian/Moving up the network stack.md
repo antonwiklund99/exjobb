@@ -68,7 +68,7 @@ if (sk->sk_state == TCP_NEW_SYN_RECV) {
 ```
 
 #### Adding the package to the socket
-If the socket is locked, the packet must be added to the backlog queue. If there is no process blocked waiting to consume data on the socket, or the state of the socket is `TCP_LISTEN` the packet must be processed immediately via the call to `tcp_v4_do_rcv()`. If the socket is locked, the packet must be added to the backlog queue with `tcp_add_backlog()`. This queue is processed by the owner of the socket lock right before it is released.
+If the socket is locked, the packet must be added to the backlog queue. If there is no process blocked waiting to consume data on the socket, or the state of the socket is `TCP_LISTEN` the packet must be processed immediately via the call to `tcp_v4_do_rcv()`. If the socket is locked, the packet must be added to the backlog queue with `tcp_add_backlog()`. This queue is processed by the owner of the socket lock right before it is released. Then it will call `tcp_4_do_rcv()` on each.
 ```
 if (sk->sk_state == TCP_LISTEN) {
 	ret = tcp_v4_do_rcv(sk, skb);
@@ -244,6 +244,88 @@ if (refcounted)
 
 `sock_put()` un-grab socket and destroy it, if it was the last reference. Now it returns whether the delivery was successful or not to `ip_protocol_deliver_rcu()`. If it was not, it will resubmit the package (to the upper layers). 
 
+So now onto `tcp_v4_do_rcv()`. It will check the state of the socket and if it is established, call `tcp_rcv_established()`. `tcp_rcv_established()` is the TCP receive function for the ESTABLISHED state. It is split into a fast path and a slow path. The fast path is disabled when:
+ * A zero window was announced from us - zero window probing is only handled properly in the slow path.
+ * Out of order segments arrived.
+ * Urgent data is expected.
+ * There is no buffer space left
+ * Unexpected TCP flags/window values/header lengths are received (detected by checking the TCP header against pred_flags)
+ * Data is sent in both directions. Fast path only supports pure senders or pure receivers (this means either the sequence number or the ack value must stay constant)
+ * Unexpected TCP option.
+When these conditions are not satisfied it drops into a standard receive procedure patterned after RFC793 to handle all cases. The first three cases are guaranteed by proper `pred_flags` setting, the rest is checked inline. Fast processing is turned on in `tcp_data_queue` when everything is OK.
+
+Urgent data handling is done in `tcp_urg()` which copies a bit from the skb to a bit which is then placed in `tcp_sk(sk)->urg_data`.
+```
+u32 ptr = tp->urg_seq - ntohl(th->seq) + (th->doff * 4) -
+			  th->syn;
+
+/* Is the urgent pointer pointing into this packet? */
+if (ptr < skb->len) {
+	u8 tmp;
+	if (skb_copy_bits(skb, ptr, &tmp, 1))
+		BUG();
+	tp->urg_data = TCP_URG_VALID | tmp;
+	if (!sock_flag(sk, SOCK_DEAD))
+		sk->sk_data_ready(sk);
+}
+```
+As you can see only one bit is copied, and will, from my understanding, be the bit that says if the skb has any urgent data to be processed. `sk_data_ready()` is a callback to indicate there is data to be processed. 
+
+After processing urgent data. `tcp_data_queue()` will be called in order to queue the data for delivery to the user. Packets in sequence go to the receive queue. Out of sequence packets to the out_of_order_queue. It will first off pull the TCP header off, now it will only be data left in the skb. If there are any urgent data, it will copy it directly to the user. 
+```
+if (tp->ucopy.task == current &&
+	tp->copied_seq == tp->rcv_nxt && tp->ucopy.len &&
+	sock_owned_by_user(sk) && !tp->urg_data) {
+	int chunk = min_t(unsigned int, skb->len,
+			  tp->ucopy.len);
+
+	__set_current_state(TASK_RUNNING);
+
+	local_bh_enable();
+	if (!skb_copy_datagram_msg(skb, 0, tp->ucopy.msg, chunk)) {
+		tp->ucopy.len -= chunk;
+		tp->copied_seq += chunk;
+		eaten = (chunk == skb->len);
+		tcp_rcv_space_adjust(sk);
+	}
+	local_bh_disable();
+}
+```
+
+If all of the skb was eaten, i.e. `eaten = (chunk == skb->len)` then it will not queue the skb. Otherwise it will call `tcp_queue_rcv()`. `tcp_queue_rcv()` will first try to merge the skb with the last skb in the queue. If it was not successful, it will simply enqueue the skb. 
+
+The out of order packets will be placed in a separate queue. When a packet is enqueued to the receive queue it will check the out of order queue to see if any of the out of order packages is next, if so it will enqueue it to the receive queue as well. If it has already been received it will free it with `__kfree_skb()`. 
+
+When adding packages to the receive queue and tries to merge, it will set a boolean pointer to true or false whether it "stole" the head frag. That pointer will be passed to `kfree_skb_partial()`. This will only be called when the skb was merged with the last skb in the receive queue. 
+
+For the fast path in `tcp_rcv_established()`, it will call on `tcp_queue_rcv()` directly without going through `tcp_data_queue()`. 
+
+#### Copying the data from the socket to user space
+Now onto how the user actually receives the data from the socket. This starts by the user application doing a sys_read system call on the socket. Then the protocol specific calls will be made in order to read the data. For example in IPv4/TCP the call chain will look like:
+`ksys_read() -> ... -> sock_recvmsg() -> inet_recvmsg() -> tcp_recvmsg()`.
+
+We will look at `tcp_recvmsg()`, i.e. for TCP. This one is pretty simple, if there is any data on the socket, i.e. packets in the receive queue, it will lock the socket and then call `tcp_recvmsg_locked()`. Otherwise it will busy-loop until it the socket is ready. 
+
+`tcp_recvmsg_locked()` will look through the receive queue until it finds a package which is okay. Once it has found an okay skb it will check how much, if any, off the data is urgent. If it is more or equal than the data we want, we will skip the copy. Otherwise we will copy the skb data to the msg (user data buffer). 
+
+if we used all data in the skb. We will then free the skb, or more specifically queue the skb up for freeing, with `tpc_eat_recv_skb()`, which is defined as:
+```
+static void tcp_eat_recv_skb(struct sock *sk, struct sk_buff *skb)
+{
+	__skb_unlink(skb, &sk->sk_receive_queue);
+	if (likely(skb->destructor == sock_rfree)) {
+		sock_rfree(skb);
+		skb->destructor = NULL;
+		skb->sk = NULL;
+		return skb_attempt_defer_free(skb);
+	}
+	__kfree_skb(skb);
+}
+```
+
+`skb_attempt_defer_free()` will queue up the skb for freeing in a `defer_list()`, if possible, otherwise free it. The defer list is a queue for skbs that will be freed later. 
+
+So later when `tcp_recvmsg()` releases the lock. it will first go through the socket backlog and call `tcp_v4_do_receive()` on each in order to put them in the queue. They will then be freed once a call to `skb_defer_free_flush()` has been made.
 
 
 
