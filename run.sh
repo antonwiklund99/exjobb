@@ -1,6 +1,12 @@
 #!/bin/bash
+
+BUILD_DIR="linux-x86-build"
+if [[ $# -eq 1 ]] && [[ "$1" == "clean" ]]; then
+  BUILD_DIR="linux-x86-clean-build"
+fi
+
 qemu-system-x86_64 \
-  -kernel linux-x86-build/arch/x86_64/boot/bzImage \
+  -kernel "$BUILD_DIR/arch/x86_64/boot/bzImage" \
   -boot c \
   -hda buildroot/output/images/rootfs.ext4 \
   -nographic -append "root=/dev/sda rw console=ttyS0 acpi=off nokaslr" \
