@@ -14,15 +14,18 @@ def index_cond(xs, cond):
 
 events = []
 with open(sys.argv[1], "r") as f:
-    for line in f.readlines()[12:]:
+    for (i,line) in enumerate(f.readlines()[12:]):
         splitted = line.strip().split()
         [task_pid,cpu,irq_context] = splitted[:3]
         timestamp = float(splitted[3].replace(":",""))
         name = splitted[4].replace(":","")
         event = {"name": name, "timestamp": timestamp}
         for kv in splitted[5:]:
-            [k,v] = kv.strip().split("=")
-            event[k] = v 
+            if "=" in kv:
+                [k,v] = kv.strip().split("=")
+            else:
+                print(f"bug: no seperator in kv '{kv}'")
+            event[k.strip()] = v.strip() 
         events.append(event)
         #print(f"{name}@{timestamp}: {out}")
 
@@ -113,19 +116,25 @@ for (line_num,event) in enumerate(events):
             active_skb_ptrs[ptr]["skb_ptr"] = event["skb"]
     # Page fragment freeing
     elif event["name"] == "skb_head_frag_free":
-        # Save function that called skb_consume
-        skb_ptr = event["skb"]
-        assert(skb_ptr in consume_skb_locations)
-        free_func = consume_skb_locations.pop(skb_ptr)
         page = event["page"]
+        skb_ptr = event["skb"]
         # Ignore pages that were allocated before start of trace
         assert(not page in freed_pages)
         if not page in active_pages:
+            # Remove free location if one exists for this
+            if skb_ptr in consume_skb_locations:
+                consume_skb_locations.pop(skb_ptr)
             continue
+        # Save function that called skb_consume
+        if skb_ptr in consume_skb_locations:
+            free_func = consume_skb_locations.pop(skb_ptr)
+        else:
+            print("BUG: no consume location for skb_head_frag_free")
+            free_func = "NOT FOUND"
         # Add free timestamp
         frag_index = index_cond(active_pages[page]["frags"], lambda x:x["ptr"] == event["ptr"])
         if (frag_index == -1):
-            print("WARNING: Bug")
+            print("BUG: no frag in page['frags'] for skb_head_frag_free")
             continue
         active_pages[page]["frags"][frag_index]["free_time"] = event["timestamp"]
         active_pages[page]["frags"][frag_index]["free_func"] = free_func
@@ -166,10 +175,14 @@ for (line_num,event) in enumerate(events):
         if not ptr in active_skb_ptrs:
             continue
         skb_ptr = event["skb"]
-        assert(skb_ptr in consume_skb_locations)
+        if skb_ptr in consume_skb_locations:
+            free_func = consume_skb_locations.pop(skb_ptr)
+        else:
+            print("BUG: skb ptr not in consume locations in skb_head_kfree")
+            free_func = "NOT FOUND"
         ptr_entry = active_skb_ptrs.pop(ptr)
         ptr_entry["free_time"] = event["timestamp"]
-        ptr_entry["free_func"] = consume_skb_locations.pop(skb_ptr)
+        ptr_entry["free_func"] = free_func
         freed_skb_ptrs[ptr] = ptr_entry
     # kmalloc or small head alloc (small heads are allocated from a kmem_cache rather than with kmalloc)
     elif event["name"] == "kmalloc" or event["name"] == "skb_small_head_alloc":
@@ -187,9 +200,10 @@ for (line_num,event) in enumerate(events):
             alloc_funcs.append(entry["alloc_func"])
             free_funcs.append(entry["free_func"])
     # SKB consume, save location from where this was called
-    elif event["name"] == "consume_skb":
+    elif event["name"] == "consume_skb" or event["name"] == "kfree_skb":
         skb_ptr = event["skbaddr"]
-        assert(not skb_ptr in consume_skb_locations)
+        if skb_ptr in consume_skb_locations:
+            print(f"BUG: consume_skb {skb_ptr} location already in consume_skb_locations")
         consume_skb_locations[skb_ptr] = event["location"]
 
 none_page_free_times = [free_times[i] - page_free_times[i] if types[i] == "frag" else "-" for i in range(len(free_times))]

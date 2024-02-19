@@ -74,6 +74,7 @@ int main(int argc, char **argv)
 	printf("Listening on port %d...\n", portno);
 	while (1)
 	{
+		unsigned int nr_bytes = 0;
 		newsockfd = accept(sockfd, (struct sockaddr *) &clientaddr, &clientlen);
 		if (newsockfd < 0)
 			error("ERROR on accept");
@@ -92,6 +93,13 @@ int main(int argc, char **argv)
 				break;
 			}
 			printf("Server received %ld/%d\n", strlen(buf), n);
+			for (int i = 0; i < n; i++) {
+				unsigned char b = nr_bytes & 0xff;
+				unsigned char br = buf[i];
+				if (br != b)
+					printf("ERROR in Byte %u: buf[%i] = %u\n", b, i, br);
+				nr_bytes++;
+			}
 		}
 
 	}
