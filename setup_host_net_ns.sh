@@ -11,6 +11,7 @@ do
 	veth="qemu_veth$i"
 	veth_ip="$subnet.1"
 	vpeer="qemu_vpeer$i"
+    qemu_ip="$subnet.3"
 	echo "Add tap $tap"
 	ip tuntap add mode tap dev $tap
 	ip addr add "$tap_ip/24" dev $tap
@@ -24,7 +25,7 @@ do
 	echo "Add address and routing for $veth in $ns"
 	ip -n $ns addr add "$veth_ip/24" dev $veth 
 	ip -n $ns link set $veth up
-	ip -n $ns route add default via $veth_ip 
+	ip -n $ns route add default via $qemu_ip
 	ip -n $ns link set dev lo up
 	echo "Add tap and vpeer to bridge"
 	ip link set $tap master $br 
