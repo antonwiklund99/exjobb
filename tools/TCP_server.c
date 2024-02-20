@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define BUFSIZE (65536)
+#define BUFSIZE (4)
 
 void error(char *msg)
 {
@@ -93,13 +93,13 @@ int main(int argc, char **argv)
 				break;
 			}
 			printf("Server received %ld/%d\n", strlen(buf), n);
-			for (int i = 0; i < n; i++) {
-				unsigned char b = nr_bytes & 0xff;
-				unsigned char br = buf[i];
-				if (br != b)
-					printf("ERROR in Byte %u: buf[%i] = %u\n", b, i, br);
-				nr_bytes++;
-			}
+			// for (int i = 0; i < n; i++) {
+			// 	unsigned char b = nr_bytes & 0xff;
+			// 	unsigned char br = buf[i];
+			// 	if (br != b)
+			// 		printf("ERROR in Byte %u: buf[%i] = %u\n", b, i, br);
+			// 	nr_bytes++;
+			// }
 		}
 
 	}

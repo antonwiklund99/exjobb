@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define BUFSIZE (64000)
+#define BUFSIZE (4)
 
 void error(char *msg)
 {
@@ -43,11 +43,15 @@ int main(int argc, char **argv){
     int i = 1;
     unsigned int nr_bytes = 0;
     while (i <= packets) {
-        for (int j = 0; j < BUFSIZE; j++) {
-            unsigned char b = nr_bytes & 0xff;
-            buffer[j] = b;
-            //printf("nr_bytes=%u parsed=%u\n", nr_bytes, b);
-            nr_bytes++;
+        for (int j = 0; j < BUFSIZE; j+=4) {
+            buffer[j] = 'L';
+            buffer[j+1] = 'E';
+            buffer[j+2] = 'A';
+            buffer[j+3] = 'K';
+            // unsigned char b = nr_bytes & 0xff;
+            // buffer[j] = b;
+            // //printf("nr_bytes=%u parsed=%u\n", nr_bytes, b);
+            // nr_bytes++;
         }
         write(sockfd, buffer, BUFSIZE);
         printf("[+]Data send: packet %d\n", i);

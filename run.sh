@@ -15,3 +15,4 @@ qemu-system-x86_64 \
   -enable-kvm \
   -netdev tap,id=t0,ifname=qemu_tap0,script=no,downscript=no -device e1000,netdev=t0 \
   -netdev tap,id=t1,ifname=qemu_tap1,script=no,downscript=no -device e1000,netdev=t1 \
+  -monitor unix:qemu-monitor-socket,server,nowait \
