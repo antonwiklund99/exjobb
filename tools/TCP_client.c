@@ -7,7 +7,7 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-#define BUFSIZE (4)
+#define BUFSIZE (64000)
 
 void error(char *msg)
 {
@@ -28,7 +28,6 @@ int main(int argc, char **argv){
     
     int sockfd;
     struct sockaddr_in addr;
-    char buffer[BUFSIZE];
     socklen_t addr_size;
     
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -43,7 +42,9 @@ int main(int argc, char **argv){
     int i = 1;
     unsigned int nr_bytes = 0;
     while (i <= packets) {
-        for (int j = 0; j < BUFSIZE; j+=4) {
+        int size = rand() % BUFSIZE;
+        char buffer[size];
+        for (int j = 0; j < size; j+=4) {
             buffer[j] = 'L';
             buffer[j+1] = 'E';
             buffer[j+2] = 'A';
@@ -53,8 +54,8 @@ int main(int argc, char **argv){
             // //printf("nr_bytes=%u parsed=%u\n", nr_bytes, b);
             // nr_bytes++;
         }
-        write(sockfd, buffer, BUFSIZE);
-        printf("[+]Data send: packet %d\n", i);
+        write(sockfd, buffer, size);
+        printf("[+]Data send: packet %d with size %d\n", i, size);
         i++;
     }
 

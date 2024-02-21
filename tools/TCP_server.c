@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define BUFSIZE (4)
+#define BUFSIZE (64000)
 
 void error(char *msg)
 {
