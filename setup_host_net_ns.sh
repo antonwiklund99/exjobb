@@ -34,3 +34,5 @@ do
 	ip link set $vpeer up
 	ip link set $br up
 done 
+
+iptables -A FORWARD -j ACCEPT
