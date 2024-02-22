@@ -2,7 +2,7 @@
 
 set -e
 
-BUILD_DIR="linux-x86-build"
+BUILD_DIR="linux"
 if [[ $# -eq 1 ]] && [[ "$1" == "clean" ]]; then
   BUILD_DIR="linux-x86-clean-build"
 fi
