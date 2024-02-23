@@ -1,0 +1,54 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wpedantic",
+      "-o",
+      "UDP_client",
+      "UDP_client.c"
+    ],
+    "directory": "/home/anton/Repos/kernel_dev/tools",
+    "file": "/home/anton/Repos/kernel_dev/tools/UDP_client.c",
+    "output": "/home/anton/Repos/kernel_dev/tools/UDP_client"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wpedantic",
+      "-o",
+      "UDP_server",
+      "UDP_server.c"
+    ],
+    "directory": "/home/anton/Repos/kernel_dev/tools",
+    "file": "/home/anton/Repos/kernel_dev/tools/UDP_server.c",
+    "output": "/home/anton/Repos/kernel_dev/tools/UDP_server"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wpedantic",
+      "-o",
+      "TCP_client",
+      "TCP_client.c"
+    ],
+    "directory": "/home/anton/Repos/kernel_dev/tools",
+    "file": "/home/anton/Repos/kernel_dev/tools/TCP_client.c",
+    "output": "/home/anton/Repos/kernel_dev/tools/TCP_client"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wpedantic",
+      "-o",
+      "TCP_server",
+      "TCP_server.c"
+    ],
+    "directory": "/home/anton/Repos/kernel_dev/tools",
+    "file": "/home/anton/Repos/kernel_dev/tools/TCP_server.c",
+    "output": "/home/anton/Repos/kernel_dev/tools/TCP_server"
+  }
+]

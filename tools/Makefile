@@ -1,6 +1,6 @@
 objects = UDP_client UDP_server TCP_client TCP_server
 CC = gcc
-CFLAGS = -Wpedantic
+CFLAGS = -Wpedantic -O3
 
 all: $(objects)
 
