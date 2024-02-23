@@ -14,8 +14,9 @@ Checked options:
 Copy init scripts to rootfs (maybe have to do one make before this):
 ```
 cp inittab buildroot/output/target/etc/inittab 
-cp setup_client_net.sh buildroot/output/target/etc/init.d/S41network_qemu
+cp setup_client_net_ns.sh buildroot/output/target/etc/init.d/S41network_qemu
 cp -p enable_events.sh buildroot/output/target/
+cp -p toggle_skb_zeroing.sh buildroot/output/target/
 cd buildroot
 make
 ```
