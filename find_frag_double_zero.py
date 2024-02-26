@@ -46,10 +46,7 @@ for (line_num, event) in enumerate(events):
         fz = active_pages[page]["frags_zeroed"]
         if frag not in fz:
             fz[frag] = []
-        fz[frag].append(event["timestamp"])
-        if len(fz[frag]) > 1:
-
-
+        fz[frag].append((event["timestamp"], -1 if frag not in frag_ref_count else frag_ref_count[frag]))
     elif event["name"] == "skb_frag_ref":
         frag = event["frag"]
         if frag not in frag_ref_count:
