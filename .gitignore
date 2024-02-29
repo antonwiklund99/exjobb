@@ -1,3 +1,6 @@
 .vscode
 .obsidian
 .cache
+memdump*
+tracedump*
+linux-x86-clean-build
