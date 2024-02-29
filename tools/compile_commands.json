@@ -50,5 +50,18 @@
     "directory": "/home/anton/Repos/kernel_dev/tools",
     "file": "/home/anton/Repos/kernel_dev/tools/TCP_server.c",
     "output": "/home/anton/Repos/kernel_dev/tools/TCP_server"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-c",
+      "-Wpedantic",
+      "-o",
+      "sslecho",
+      "sslecho.c"
+    ],
+    "directory": "/home/anton/Repos/kernel_dev/tools",
+    "file": "/home/anton/Repos/kernel_dev/tools/sslecho.c",
+    "output": "/home/anton/Repos/kernel_dev/tools/sslecho"
   }
 ]

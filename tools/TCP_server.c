@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
     /*
      * main loop: wait for a tcp connection
      */
-    listen(sockfd, 1);
+    listen(sockfd, 10);
     clientlen = sizeof(clientaddr);
     printf("Listening on port %d...\n", portno);
     char expected_msg[] = {'L', 'E', 'A', 'K'};
@@ -95,8 +95,8 @@ int main(int argc, char **argv) {
             }
             for (int i = 0; i < n; i++) {
                 if (buf[i] != expected_msg[msg_index]) {
-                    printf("error: buf[%d] = %c (%x), expected = %c\n", i,
-                           buf[i], buf[i], expected_msg[msg_index]);
+                    // printf("error: buf[%d] = %c (%x), expected = %c\n", i,
+                    //        buf[i], buf[i], expected_msg[msg_index]);
                     errors++;
                 }
                 msg_index = (msg_index + 1) % 4;
@@ -104,4 +104,6 @@ int main(int argc, char **argv) {
             printf("Server received %ld/%d\n", strlen(buf), n);
         }
     }
+
+    bzero(expected_msg, 4);
 }
