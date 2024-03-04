@@ -5,8 +5,14 @@
 #include <string.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #define BUFSIZE 64000
+
+void error(char *msg, int err) {
+    perror(msg);
+    exit(err);
+}
 
 int main(int argc, char **argv) {
 
@@ -21,7 +27,7 @@ int main(int argc, char **argv) {
 
     int sockfd;
     struct sockaddr_in addr;
-    char buffer[BUFSIZE];
+    char *buffer = malloc(BUFSIZE);
     socklen_t addr_size;
 
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -30,14 +36,34 @@ int main(int argc, char **argv) {
     addr.sin_port = htons(port);
     addr.sin_addr.s_addr = inet_addr(ip);
 
+	char *msg = malloc(4*sizeof(char));
+    msg[0] = 'L'; 
+	msg[1] = 'E';
+	msg[2] = 'A';
+	msg[3] = 'K';
+    int msg_idx = 0;
+
     int i = 1;
     while (i <= packets) {
-        memset(buffer, 'a', BUFSIZE);
-        sendto(sockfd, buffer, BUFSIZE, 0, (struct sockaddr *)&addr,
+        for (int k = 0; k < BUFSIZE; k++) {
+			buffer[k] = msg[msg_idx%4];
+			msg_idx = (msg_idx + 1) % 4;
+		}
+
+        int err = sendto(sockfd, buffer, BUFSIZE, 0, (struct sockaddr *)&addr,
                sizeof(addr));
+
+		if (err < 0) 
+			error("Error when sending data, exiting...\n", err);
+
         printf("[+]Data send: packet %d\n", i);
         i += 1;
     }
+
+	close(sockfd);
+	explicit_bzero(buffer, BUFSIZE);
+    explicit_bzero(msg, 4);
+	free(msg);
 
     return 0;
 }

@@ -22,11 +22,12 @@ int main(int argc, char **argv) {
     struct sockaddr_in serveraddr; /* server's addr */
     struct sockaddr_in clientaddr; /* client addr */
     struct hostent *hostp;         /* client host info */
-    char buf[BUFSIZE];             /* message buf */
+    char *buf = malloc(BUFSIZE * sizeof(char));             /* message buf */
     char *hostaddrp;               /* dotted decimal host addr string */
     int optval;                    /* flag value for setsockopt */
     int n;                         /* message byte size */
     int errors = 0;
+    int msg_index = 0;
 
     if (argc != 2) {
         fprintf(stderr, "usage: %s <port>\n", argv[0]);
@@ -60,34 +61,50 @@ int main(int argc, char **argv) {
     /*
      * bind: associate the parent socket with a port
      */
-    if (bind(sockfd, (struct sockaddr *)&serveraddr, sizeof(struct sockaddr)) <
-        0)
+    if (bind(sockfd, (struct sockaddr *)&serveraddr, sizeof(struct sockaddr)) < 0)
         error("ERROR on binding");
 
     /*
      * main loop: wait for a datagram, then echo it
      */
     clientlen = sizeof(clientaddr);
+
+	char *expected_msg = malloc(4*sizeof(char));
     printf("Listening on port %d...\n", portno);
     while (1) {
         /*
          * recvfrom: receive a UDP datagram from a client
          */
-        bzero(buf, BUFSIZE);
+		
         n = recvfrom(sockfd, buf, BUFSIZE, 0, (struct sockaddr *)&clientaddr,
                      &clientlen);
         if (n < 0)
             error("ERROR in recvfrom");
 
+		expected_msg[0] = 'L'; 
+		expected_msg[1] = 'E';
+		expected_msg[2] = 'A';
+		expected_msg[3] = 'K';
+		for (int k = 0; k < 4; k++) {
+			if (buf[0] == expected_msg[k]) {
+				msg_index = k;
+				break;
+			}
+		}
+
         for (int i = 0; i < n; i++) {
-            if (buf[i] != 'a') {
-                printf("Error in buf[%d], got: %c (%x) expected %c (%d)", i,
-                       buf[i], buf[i], 'a', 'a');
-                errors++;
-            }
+            if (buf[i] != expected_msg[msg_index]) {
+                    // printf("error: buf[%d] = %c (%x), expected = %c\n", i,
+                    //        buf[i], buf[i], expected_msg[msg_index]);
+                    errors++;
+                }
+			msg_index = (msg_index + 1) % 4;
         }
+		explicit_bzero(expected_msg, 4);
+        explicit_bzero(buf, BUFSIZE);
 
         printf("server received %ld/%d bytes (errors = %d)\n", strlen(buf), n,
                errors);
     }
+	free(expected_msg);
 }
