@@ -70,10 +70,15 @@ int main(int argc, char **argv) {
     listen(sockfd, 10);
     clientlen = sizeof(clientaddr);
     printf("Listening on port %d...\n", portno);
-    char expected_msg[] = {'L', 'E', 'A', 'K'};
+
     int msg_index = 0;
     int errors = 0;
     while (1) {
+		char *expected_msg = malloc(4*sizeof(char));
+		expected_msg[0] = 'L'; 
+		expected_msg[1] = 'E';
+		expected_msg[2] = 'A';
+		expected_msg[3] = 'K';
         newsockfd = accept(sockfd, (struct sockaddr *)&clientaddr, &clientlen);
         if (newsockfd < 0)
             error("ERROR on accept");
@@ -103,7 +108,8 @@ int main(int argc, char **argv) {
             }
             printf("Server received %ld/%d\n", strlen(buf), n);
         }
-    }
 
-    bzero(expected_msg, 4);
+    	explicit_bzero(expected_msg, 4);
+		free(expected_msg);
+    }
 }

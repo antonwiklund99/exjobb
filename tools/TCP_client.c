@@ -40,7 +40,11 @@ int main(int argc, char **argv) {
         error("ERROR connecting", err);
 
     int i = 1;
-    char msg[] = {'L', 'E', 'A', 'K'};
+	char *msg = malloc(4*sizeof(char));
+    msg[0] = 'L'; 
+	msg[1] = 'E';
+	msg[2] = 'A';
+	msg[3] = 'K';
     int msg_idx = 0;
     while (i <= packets) {
         int size = rand() % BUFSIZE;
@@ -58,7 +62,8 @@ int main(int argc, char **argv) {
 
     close(sockfd);
 
-    bzero(msg, 4);
-
+    explicit_bzero(msg, 4);
+	free(msg);
+	
     return 0;
 }
