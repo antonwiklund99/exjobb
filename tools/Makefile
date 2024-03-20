@@ -1,4 +1,4 @@
-objects = UDP_client UDP_server TCP_client TCP_server sslecho
+objects = UDP_client UDP_server TCP_client TCP_server sslecho sendfile
 CC = gcc
 CFLAGS = -Wpedantic
 LDLIBS = -lssl -lcrypto 
@@ -11,4 +11,4 @@ $(objects): %: %.c
 	cp $@ ../buildroot/output/target/
 	
 clean: 
-	rm -rf UDP_client UDP_server TCP_client TCP_server sslecho
+	rm -rf UDP_client UDP_server TCP_client TCP_server sslecho sendfile
